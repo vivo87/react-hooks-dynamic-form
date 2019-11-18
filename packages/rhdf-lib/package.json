@@ -1,0 +1,36 @@
+{
+  "name": "react-hooks-dynamic-form",
+  "version": "0.1.0-beta.1",
+  "description": "Dynamic form with react hooks",
+  "keywords": [
+    "react",
+    "hooks",
+    "form"
+  ],
+  "author": "vivo87 <vongocviet@gmail.com>",
+  "homepage": "https://github.com/vivo87/react-hooks-dynamic-form",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivo87/react-hooks-dynamic-form.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "format": "prettier --config ../../.prettierrc --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json"
+  },
+  "bugs": {
+    "url": "https://github.com/vivo87/react-hooks-dynamic-form/issues"
+  },
+  "devDependencies": {
+    "prettier": "^1.19.1",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.7.2"
+  }
+}

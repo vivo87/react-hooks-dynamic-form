@@ -1,7 +1,7 @@
 import { Greeter, Form } from "./index";
 
 describe("Export contents", () => {
-  test("My Greeter", () => {
+  test("Greeter", () => {
     expect(Greeter("John Doe")).toBe("Hello John Doe");
   });
 

@@ -1,6 +1,6 @@
 {
   "name": "react-hooks-dynamic-form-storybook",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "React Hooks Dynamic Form storybook",
   "keywords": [
@@ -25,5 +25,8 @@
   },
   "bugs": {
     "url": "https://github.com/vivo87/react-hooks-dynamic-form/issues"
+  },
+  "dependencies": {
+    "react-hooks-dynamic-form": "^0.1.0-beta.1"
   }
 }

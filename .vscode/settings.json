@@ -1,0 +1,34 @@
+{
+  "editor.formatOnSave": false,
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    "editor.formatOnSave": false
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": false
+  },
+  "eslint.autoFixOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
+      "language": "typescriptreact",
+      "autoFix": true
+    }
+  ]
+  // We now use the same eslintrc so no need per directory
+  // "eslint.workingDirectories": [
+  //   { "directory": "packages/rhdf-demo", "changeProcessCWD": true },
+  //   { "directory": "packages/rhdf-lib", "changeProcessCWD": true },
+  //   { "directory": "packages/rhdf-storybook", "changeProcessCWD": true }
+  // ]
+}

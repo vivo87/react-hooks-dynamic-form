@@ -1,0 +1,2 @@
+# Keep this file empty to use the root eslintrc
+# The file must be present for vscode eslint plugin to detect and override default CRA

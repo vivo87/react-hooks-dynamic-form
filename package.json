@@ -11,14 +11,21 @@
     "url": "https://github.com/vivo87/react-hooks-dynamic-form.git"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.8.0",
+    "@typescript-eslint/parser": "^2.8.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.6.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "lerna": "^3.13.1",
     "prettier": "^1.19.1",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.7.2"
   },
   "scripts": {
     "install": "lerna bootstrap",
-    "start": "lerna run start --stream"
+    "build": "lerna run build",
+    "start": "npm run build && lerna run start --parallel"
   }
 }

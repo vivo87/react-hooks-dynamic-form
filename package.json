@@ -28,7 +28,8 @@
   "scripts": {
     "install": "lerna bootstrap",
     "build": "lerna run build",
-    "start": "npm run build && lerna run start --parallel"
+    "start": "npm run build && lerna run start --parallel",
+    "lint": "npx eslint --ext=jsx,ts,tsx packages/rhdf*/src"
   },
   "husky": {
     "hooks": {

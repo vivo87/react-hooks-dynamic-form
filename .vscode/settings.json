@@ -1,5 +1,6 @@
 {
-  "editor.formatOnSave": false,
+  // Keep editor.formatOnSave for other files like json, disable other to use eslint fix
+  //"editor.formatOnSave": false,
   "[javascript]": {
     "editor.formatOnSave": false
   },

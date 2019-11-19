@@ -9,7 +9,8 @@
     "strict": true,
     "jsx": "react",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    // "baseUrl": "./src"
     // "allowJs": true,
     // "skipLibCheck": true,
     // "forceConsistentCasingInFileNames": true,

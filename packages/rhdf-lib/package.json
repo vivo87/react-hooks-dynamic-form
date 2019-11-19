@@ -21,7 +21,8 @@
   "scripts": {
     "start": "concurrently \"tsc --watch\"",
     "build": "tsc",
-    "test": "echo \"Error: run tests from root\" && exit 1",
+    "test": "jest",
+    "test-commit": "jest --bail --findRelatedTests",
     "format": "prettier --config ../../.prettierrc --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint --ext=jsx,ts,tsx src"
   },
@@ -34,8 +35,17 @@
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.4",
     "concurrently": "^5.0.0",
+    "jest": "^24.9.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    },
+    "testRegex": "(/src/.*.(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   }
 }

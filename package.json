@@ -19,13 +19,27 @@
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.3.0",
+    "husky": "^3.1.0",
     "lerna": "^3.13.1",
+    "lint-staged": "^9.4.3",
     "prettier": "^1.19.1",
     "typescript": "^3.7.2"
   },
   "scripts": {
     "install": "lerna bootstrap",
     "build": "lerna run build",
-    "start": "npm run build && lerna run start --parallel"
+    "start": "npm run build && lerna run start --parallel",
+    "test-commit": "lerna run test-commit --stream --"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --debug"
+    }
+  },
+  "lint-staged": {
+    "**/src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }

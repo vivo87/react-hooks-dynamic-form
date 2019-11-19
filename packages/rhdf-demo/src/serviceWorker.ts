@@ -134,6 +134,7 @@
 //     });
 // }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function unregister() {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.ready.then(registration => {

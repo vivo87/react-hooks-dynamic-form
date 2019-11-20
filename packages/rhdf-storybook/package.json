@@ -1,0 +1,32 @@
+{
+  "name": "react-hooks-dynamic-form-storybook",
+  "version": "0.1.0",
+  "private": true,
+  "description": "React Hooks Dynamic Form storybook",
+  "keywords": [
+    "react",
+    "hooks",
+    "form",
+    "storybook"
+  ],
+  "author": "vivo87 <vongocviet@gmail.com>",
+  "homepage": "https://github.com/vivo87/react-hooks-dynamic-form",
+  "license": "ISC",
+  "main": "index.js",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivo87/react-hooks-dynamic-form.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/vivo87/react-hooks-dynamic-form/issues"
+  },
+  "dependencies": {
+    "react-hooks-dynamic-form": "^0.1.0-beta.1"
+  }
+}

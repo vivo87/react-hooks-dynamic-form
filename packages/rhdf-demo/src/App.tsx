@@ -1,12 +1,16 @@
 import React from "react";
 
-import { Form } from "react-hooks-dynamic-form";
+import YourForm from "./YourForm";
+import MyForm from "./MyForm";
+
 import "./App.css";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Form />
+      <YourForm />
+      <br />
+      <MyForm />
     </div>
   );
 };

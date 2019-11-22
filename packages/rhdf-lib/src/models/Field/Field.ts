@@ -1,6 +1,7 @@
-export type CustomValidationType = {
+export type FieldValueType = string | number | object | Array<string | number | object> | null;
+export type FieldCustomValidationType = {
   // TO-DO add second parameter formData
-  validate: (value: any) => boolean;
+  validate: (value: FieldValueType) => boolean;
   errorMessage: string;
 };
 
@@ -13,20 +14,20 @@ export abstract class FieldSettings {
   className?: string;
   props?: object;
   render?: () => JSX.Element;
-  customValidations: CustomValidationType[] = [];
+  customValidations: FieldCustomValidationType[] = [];
   // for type=fieldset only
   children?: Field[];
 
   // "value" field can only be set at initialization via defaultValue, use updateValue to update field value
-  private _defaultValue: any = null;
-  protected _value: any = null;
-  get value(): any {
+  private _defaultValue: FieldValueType = null;
+  protected _value: FieldValueType = null;
+  get value(): FieldValueType {
     return this._value || this._defaultValue;
   }
-  set value(val: any) {
+  set value(val: FieldValueType) {
     this._defaultValue = val;
   }
-  abstract updateValue(newValue: any): void;
+  abstract updateValue(newValue: FieldValueType): void;
 }
 
 export class Field extends FieldSettings {
@@ -40,7 +41,7 @@ export class Field extends FieldSettings {
     Object.assign(this, init);
   }
 
-  public updateValue(newValue: any): void {
+  public updateValue(newValue: FieldValueType): void {
     this._value = newValue;
     this._isPristine = false;
   }

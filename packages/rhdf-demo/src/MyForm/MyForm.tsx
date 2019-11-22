@@ -1,6 +1,6 @@
 import React from "react";
 
-import { FieldSettings, useFormUtils } from "react-hooks-dynamic-form";
+import { FieldSettings, useFormHooks } from "react-hooks-dynamic-form";
 
 const FORM_FIELDS: Array<FieldSettings> = [
   {
@@ -34,10 +34,22 @@ const FORM_FIELDS: Array<FieldSettings> = [
 ];
 
 const MyForm: React.FC = () => {
-  const { data } = useFormUtils(FORM_FIELDS);
-  console.log("My Form", data);
-
-  return <div className="my-form">TO-DO My Form</div>;
+  const { data, onFieldChange } = useFormHooks(FORM_FIELDS);
+  return (
+    data && (
+      <div className="my-form">
+        <label>Your Form: </label>
+        <input
+          name="login"
+          type="text"
+          value={data.login.value as string}
+          onChange={(ev): void => {
+            onFieldChange("login", ev.target.value);
+          }}
+        />
+      </div>
+    )
+  );
 };
 
 export default MyForm;

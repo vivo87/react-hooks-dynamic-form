@@ -1,78 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { Field, FieldSettings } from "../Field";
+import { FieldValueType, FieldSettings } from "../Field";
+import { generateFormData, updateFormField, FormData, DefaultValues } from "./utils";
 
-export interface FormUtils {
+export interface FormHooks {
   isValid: boolean;
   data: FormData | null;
-  onFieldChange: () => object;
+  onFieldChange: (name: string, value: FieldValueType) => void;
   isFieldInputError: (fieldName: string) => boolean;
-}
-export interface FormData {
-  [fieldName: string]: Field;
-}
-export interface DefaultValues {
-  [fieldName: string]: any;
+  resetForm: () => void;
 }
 
-/**
- * Generate form data by normalizing fields settings array
- * @param fields Array field settings
- * @param defaultValues fields values from parent
- */
-export const generateFormData = (
-  fields: FieldSettings[],
-  defaultValues?: DefaultValues
-): FormData => {
-  const allFields = fields.reduce<FieldSettings[]>(
-    (acc, field) => acc.concat(field.type === "fieldset" ? field.children || [] : field),
-    []
-  );
-
-  return allFields.reduce((acc, fieldSettings) => {
-    const field = new Field(fieldSettings);
-    // Init Field state
-    field.setPristine(true);
-    field.setError(null);
-    if (defaultValues && defaultValues[field.name]) {
-      field.value = defaultValues[field.name];
-    }
-
-    switch (field.type) {
-      case "email":
-        // Auto add a default email validation
-        //field.type = "text";
-        field.customValidations.push({
-          validate: (value: string) => {
-            const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return (!field.isRequired && !value) || (!!value && regex.test(value.trim()));
-          },
-          errorMessage: "Veuillez saisir un email valide",
-        });
-        break;
-      case "phone":
-        // Auto add a default french phone validation
-        field.type = "text";
-        field.customValidations.push({
-          validate: (value: string) => {
-            const regex = /^(0[1-68])(?:[ _.-]?(\d{2})){4}$/;
-            return (!field.isRequired && !value) || (!!value && regex.test(value.trim()));
-          },
-          errorMessage: "Veuillez saisir un téléphone valide",
-        });
-        break;
-      default:
-        break;
-    }
-
-    return {
-      ...acc,
-      [field.name]: field,
-    };
-  }, {});
-};
-
-export const useFormUtils = (fields: FieldSettings[], defaultValues?: DefaultValues): FormUtils => {
+export const useFormHooks = (fields: FieldSettings[], defaultValues?: DefaultValues): FormHooks => {
   const [formData, setFormData] = useState<FormData | null>(null);
 
   const resetForm = useCallback(() => {
@@ -85,10 +24,19 @@ export const useFormUtils = (fields: FieldSettings[], defaultValues?: DefaultVal
     resetForm();
   }, [resetForm]);
 
+  const handleFieldChange = useCallback((name: string, value: FieldValueType) => {
+    setFormData(currentFormData => {
+      const newFormData = updateFormField(currentFormData as FormData, name, value);
+
+      return newFormData;
+    });
+  }, []);
+
   return {
     isValid: false,
     data: formData,
-    onFieldChange: (): object => ({}),
+    onFieldChange: handleFieldChange,
     isFieldInputError: (): boolean => true,
+    resetForm,
   };
 };

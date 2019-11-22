@@ -8,15 +8,6 @@ export abstract class FieldSettings {
   name: string;
   type: string;
   isRequired?: boolean = false;
-  // "value" field can only be set at initialization, use updateValue to update field value
-  private _defaultValue: any = null;
-  get value(): any {
-    return this._value || this._defaultValue;
-  }
-  set value(val: any) {
-    this._defaultValue = val;
-  }
-
   label?: string;
   placeholder?: string;
   className?: string;
@@ -26,14 +17,24 @@ export abstract class FieldSettings {
   // for type=fieldset only
   children?: Field[];
 
-  //#region --- Form State Fields
+  // "value" field can only be set at initialization via defaultValue, use updateValue to update field value
+  private _defaultValue: any = null;
   protected _value: any = null;
-  protected _isPristine = false;
-  protected _error: string | null = null;
-  //#endregion --- Form State Fields
+  get value(): any {
+    return this._value || this._defaultValue;
+  }
+  set value(val: any) {
+    this._defaultValue = val;
+  }
+  abstract updateValue(newValue: any): void;
 }
 
 export class Field extends FieldSettings {
+  //#region --- Form State Fields
+  protected _isPristine = false;
+  protected _error: string | null = null;
+  //#endregion --- Form State Fields
+
   public constructor(init?: Partial<FieldSettings>) {
     super();
     Object.assign(this, init);

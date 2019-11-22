@@ -1,4 +1,4 @@
-import { Field, FieldValueType, FieldSettings } from "../Field";
+import { Field, FieldValueType, FieldSettings } from "./Field";
 
 export interface FormData {
   [fieldName: string]: Field;

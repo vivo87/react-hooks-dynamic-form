@@ -20,9 +20,9 @@ export abstract class FieldSettings {
 
   // "value" field can only be set at initialization via defaultValue, use updateValue to update field value
   private _defaultValue: FieldValueType = null;
-  protected _value: FieldValueType = null;
+  protected _value: FieldValueType;
   get value(): FieldValueType {
-    return this._value || this._defaultValue;
+    return typeof this._value !== "undefined" ? this._value : this._defaultValue;
   }
   set value(val: FieldValueType) {
     this._defaultValue = val;

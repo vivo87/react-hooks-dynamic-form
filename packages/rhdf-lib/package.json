@@ -23,6 +23,7 @@
     "postinstall": "npm run build",
     "start": "concurrently \"tsc -p tsconfig.build.json --watch\"",
     "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf ./cache ./dist",
     "test": "jest",
     "test-commit": "jest --bail --findRelatedTests"
   },

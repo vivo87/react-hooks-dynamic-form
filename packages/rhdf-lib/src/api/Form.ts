@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { FieldValueType, FieldSettings } from "../Field";
+import { FieldValueType, FieldSettings } from "./Field";
 import { generateFormData, updateFormField, FormData, DefaultValues } from "./utils";
 
-export interface FormHooks {
+export interface FormApi {
   isValid: boolean;
   data: FormData | null;
   onFieldChange: (name: string, value: FieldValueType) => void;
@@ -11,7 +11,7 @@ export interface FormHooks {
   resetForm: () => void;
 }
 
-export const useFormHooks = (fields: FieldSettings[], defaultValues?: DefaultValues): FormHooks => {
+export const useFormApi = (fields: FieldSettings[], defaultValues?: DefaultValues): FormApi => {
   const [formData, setFormData] = useState<FormData | null>(null);
 
   const resetForm = useCallback(() => {

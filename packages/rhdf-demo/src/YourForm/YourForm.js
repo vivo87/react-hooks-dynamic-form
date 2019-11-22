@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useFormHooks } from "react-hooks-dynamic-form";
+import { useFormApi } from "react-hooks-dynamic-form";
 
 const FORM_FIELDS = [
   {
@@ -34,7 +34,7 @@ const FORM_FIELDS = [
 ];
 
 const YourForm = () => {
-  const { data } = useFormHooks(FORM_FIELDS);
+  const { data } = useFormApi(FORM_FIELDS);
   console.log("Your form", data);
 
   return <div className="your-form">TO-DO Your Form</div>;

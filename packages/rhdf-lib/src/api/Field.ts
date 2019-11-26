@@ -65,9 +65,9 @@ export abstract class FieldSettings {
   children?: Field[];
 
   /**
-   * "value" field should only be set at initialization via defaultValue, use setInputValue to update field value
+   * "value" field should only be set at initialization, use setInputValue to update field value
    */
-  public value?: FieldValueType = null;
+  public value?: FieldValueType;
 
   /**
    * Set value from user input
@@ -95,6 +95,38 @@ export class Field extends FieldSettings {
       this.type = "text";
     }
 
+    // Default value
+    if (typeof this.value === "undefined") {
+      this.setDefaultValue();
+    }
+
+    // Default validations
+    this.setDefaultValidations();
+  }
+
+  /**
+   * PRIVATE: set default value
+   */
+  private setDefaultValue(): void {
+    switch (this.type) {
+      case FieldTypeEnum.CHECKBOX:
+      case FieldTypeEnum.RADIO:
+        this.value = false;
+        break;
+      case FieldTypeEnum.HIDDEN:
+      case FieldTypeEnum.CUSTOM:
+        this.value = null;
+        break;
+      default:
+        this.value = "";
+        break;
+    }
+  }
+
+  /**
+   * PRIVATE: set default validations
+   */
+  private setDefaultValidations(): void {
     // By default, only one of the 2 trigger type
     this.validateOnBlur = !this.validateOnChange;
 
@@ -104,7 +136,7 @@ export class Field extends FieldSettings {
     }
 
     switch (this.type) {
-      case "email":
+      case FieldTypeEnum.EMAIL:
         // Auto add a default email validation
         //this.type = "text";
         this.customValidations.push({
@@ -117,12 +149,12 @@ export class Field extends FieldSettings {
           errorMessage: this.defaultValidationMessage || "Invalid email",
         });
         break;
-      case "phone":
+      case FieldTypeEnum.PHONE:
         // Auto add a default french phone validation
         this.type = "text";
         this.customValidations.push({
           validate: (value: FieldValueType) => {
-            const regex = /^(0[1-68])(?:[ _.-]?(\d{2})){4}$/;
+            const regex = /^(\d)(?:[ _.-]?(\d))+$/;
             return (
               (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
             );
@@ -145,11 +177,11 @@ export class Field extends FieldSettings {
   }
 
   /**
-   * Return true if field is error and not pristine
+   * Return error message if field is error and not pristine
    * @param {object} field field object
    * @returns {boolean}
    */
-  public isInputError = (): boolean => !!this._error && !this._isPristine;
+  public getInputError = (): string | null => (!this._isPristine ? this._error : null);
 
   /**
    * Validate field
@@ -168,7 +200,9 @@ export class Field extends FieldSettings {
           this.value === false)
           ? this.isRequiredMessage || DEFAULT_ISREQUIRED_MESSAGE
           : null;
-    } else if (Array.isArray(this.customValidations)) {
+    }
+
+    if (!this._error && Array.isArray(this.customValidations)) {
       const validationFailed = this.customValidations.find(
         validation => !validation.validate(this.value, formData)
       );

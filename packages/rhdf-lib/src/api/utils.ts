@@ -1,9 +1,9 @@
-import { Field, FieldValueType, FieldSettings } from "./Field";
+import { Field, FieldTypeEnum, FieldValueType, FieldSettings } from "./Field";
 
 export interface FormData {
   [fieldName: string]: Field;
 }
-export interface DefaultValues {
+export interface FormValues {
   [fieldName: string]: FieldValueType;
 }
 export interface ValidationResult<T extends Field | FormData> {
@@ -16,10 +16,7 @@ export interface ValidationResult<T extends Field | FormData> {
  * @param fields Array field settings
  * @param defaultValues fields values from parent
  */
-export const generateFormData = (
-  fields: FieldSettings[],
-  defaultValues?: DefaultValues
-): FormData => {
+export const generateFormData = (fields: FieldSettings[], defaultValues?: FormValues): FormData => {
   const allFields = fields.reduce<FieldSettings[]>(
     (acc, field) => acc.concat(field.type === "fieldset" ? field.children || [] : field),
     []

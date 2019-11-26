@@ -35,7 +35,7 @@ const FORM_FIELDS = [
 
 const JsForm = () => {
   const { data } = useFormApi(FORM_FIELDS);
-  console.log("Your form", data);
+  console.log("JS Form", data);
 
   return <div className="your-form">TO-DO JS Form</div>;
 };

@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { FieldValueType, FieldSettings } from "./Field";
 import {
   FormData,
-  DefaultValues,
+  FormValues,
   generateFormData,
   updateFormField,
   validateField,
@@ -11,16 +11,19 @@ import {
 } from "./utils";
 
 export interface FormApi {
+  isInit: boolean;
   isValid: boolean;
-  data: FormData | null;
+  values: FormValues;
   setFieldValue: (name: string, value: FieldValueType) => void;
   validateField: (name: string) => void;
   validateForm: () => void;
-  isFieldInputError: (fieldName: string) => boolean;
+  getFieldInputError: (fieldName: string) => string | null;
   resetForm: () => void;
 }
 
-export const useFormApi = (fields: FieldSettings[], defaultValues?: DefaultValues): FormApi => {
+//TO-DO defaultOptions : validateOnChange ...
+
+export const useFormApi = (fields: FieldSettings[], defaultValues?: FormValues): FormApi => {
   const [formData, setFormData] = useState<FormData | null>(null);
 
   const resetForm = useCallback(() => {
@@ -47,18 +50,27 @@ export const useFormApi = (fields: FieldSettings[], defaultValues?: DefaultValue
     return isValid;
   }, [formData]);
 
-  const isFieldInputError = useCallback(
-    (name: string) => !!formData && formData[name].isInputError(),
+  const getFieldInputError = useCallback(
+    (name: string) => (formData ? formData[name].getInputError() : null),
     [formData]
   );
 
+  const values: FormValues = fields.reduce(
+    (acc, { name }) => ({
+      ...acc,
+      ...(formData && formData[name] ? { [name]: formData[name].value } : {}),
+    }),
+    {}
+  );
+
   return {
+    isInit: !!formData,
     isValid: false,
-    data: formData,
+    values,
     setFieldValue: handleFieldChange,
     validateField: handleFieldValidate,
     validateForm: handleFormValidate,
-    isFieldInputError,
+    getFieldInputError,
     resetForm,
   };
 };

@@ -1,16 +1,16 @@
 import React from "react";
 
-import YourForm from "./YourForm";
-import MyForm from "./MyForm";
+import JsForm from "./JsForm";
+import TsForm from "./TsForm";
 
 import "./App.css";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <YourForm />
+      <JsForm />
       <br />
-      <MyForm />
+      <TsForm />
     </div>
   );
 };

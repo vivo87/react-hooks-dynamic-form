@@ -33,11 +33,11 @@ const FORM_FIELDS = [
   },
 ];
 
-const YourForm = () => {
+const JsForm = () => {
   const { data } = useFormApi(FORM_FIELDS);
   console.log("Your form", data);
 
-  return <div className="your-form">TO-DO Your Form</div>;
+  return <div className="your-form">TO-DO JS Form</div>;
 };
 
-export default YourForm;
+export default JsForm;

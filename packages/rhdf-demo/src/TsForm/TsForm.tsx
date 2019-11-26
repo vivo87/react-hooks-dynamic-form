@@ -34,13 +34,13 @@ const FORM_FIELDS: Array<FieldSettings> = [
   } as FieldSettings,
 ];
 
-const MyForm: React.FC = () => {
+const TsForm: React.FC = () => {
   const { data, setFieldValue } = useFormApi(FORM_FIELDS);
   console.log(data);
   return (
     data && (
       <div className="my-form">
-        <label>Your Form: </label>
+        <label>TS Form: </label>
         <input
           name="login"
           type="text"
@@ -54,4 +54,4 @@ const MyForm: React.FC = () => {
   );
 };
 
-export default MyForm;
+export default TsForm;

@@ -6,6 +6,10 @@ export interface FormData {
 export interface DefaultValues {
   [fieldName: string]: FieldValueType;
 }
+export interface ValidationResult<T extends Field | FormData> {
+  isValid: boolean;
+  updatedData: T;
+}
 
 /**
  * Generate form data by normalizing fields settings array
@@ -22,45 +26,15 @@ export const generateFormData = (
   );
 
   return allFields.reduce((acc, fieldSettings) => {
-    const field = new Field(fieldSettings);
-    // Init Field state
-    field.setPristine(true);
-    field.setError(null);
-    if (defaultValues && defaultValues[field.name]) {
-      field.value = defaultValues[field.name];
+    // Precheck fieldSettings
+    const { name } = fieldSettings;
+    if (!name) {
+      return acc;
     }
-
-    switch (field.type) {
-      case "email":
-        // Auto add a default email validation
-        //field.type = "text";
-        field.customValidations.push({
-          validate: (value: FieldValueType) => {
-            const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return (
-              (!field.isRequired && !value) || (!!value && regex.test((value as string).trim()))
-            );
-          },
-          errorMessage: "Veuillez saisir un email valide",
-        });
-        break;
-      case "phone":
-        // Auto add a default french phone validation
-        field.type = "text";
-        field.customValidations.push({
-          validate: (value: FieldValueType) => {
-            const regex = /^(0[1-68])(?:[ _.-]?(\d{2})){4}$/;
-            return (
-              (!field.isRequired && !value) || (!!value && regex.test((value as string).trim()))
-            );
-          },
-          errorMessage: "Veuillez saisir un téléphone valide",
-        });
-        break;
-      default:
-        break;
-    }
-
+    const field = new Field({
+      ...fieldSettings,
+      ...(defaultValues && defaultValues[name] ? { value: defaultValues[name] } : {}),
+    });
     return {
       ...acc,
       [field.name]: field,
@@ -83,10 +57,46 @@ export const updateFormField = (
   if (!formData[fieldName]) {
     return formData;
   }
-  formData[fieldName].updateValue(newValue);
+  const field = formData[fieldName];
+  field.setInputValue(newValue);
+
+  if (field.validateOnChange) {
+    field.validate(formData);
+  }
 
   // Immutable to allow update
   return {
     ...formData,
+  };
+};
+
+/**
+ * Validate field, update field state (pristine, error)
+ * @param fieldName field name
+ * @param formData current form data object
+ */
+export const validateField = (formData: FormData, fieldName: string): FormData => {
+  formData[fieldName].validate(formData);
+
+  return {
+    ...formData,
+  };
+};
+
+/**
+ * Validate form, update form state
+ * @param formData current form data object
+ */
+export const validateForm = (formData: FormData): ValidationResult<FormData> => {
+  let isValid = true;
+  for (const field of Object.values(formData)) {
+    isValid = isValid && field.validate(formData);
+  }
+  return {
+    isValid,
+    // Immutable to allow update
+    updatedData: {
+      ...formData,
+    },
   };
 };

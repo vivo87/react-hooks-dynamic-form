@@ -10,6 +10,7 @@ const FORM_FIELDS: Array<FieldSettings> = [
     label: "ID",
     placeholder: "Your ID",
     isRequired: true,
+    validateOnChange: true,
   } as FieldSettings,
   {
     type: "password",
@@ -34,7 +35,7 @@ const FORM_FIELDS: Array<FieldSettings> = [
 ];
 
 const MyForm: React.FC = () => {
-  const { data, onFieldChange } = useFormApi(FORM_FIELDS);
+  const { data, setFieldValue } = useFormApi(FORM_FIELDS);
   console.log(data);
   return (
     data && (
@@ -45,7 +46,7 @@ const MyForm: React.FC = () => {
           type="text"
           value={data.login.value as string}
           onChange={(ev): void => {
-            onFieldChange("login", ev.target.value);
+            setFieldValue("login", ev.target.value);
           }}
         />
       </div>

@@ -119,6 +119,14 @@ export class Field extends FieldSettings {
   }
 
   /**
+   * Get error message
+   * @param key error key
+   */
+  private getErrorMessage(key: keyof FieldErrorMessages): string {
+    return (this.errorMessages && this.errorMessages[key]) || DEFAULT_ERROR_MESSAGES[key] || "";
+  }
+
+  /**
    * PRIVATE: set default value
    */
   private setDefaultValue(): void {
@@ -127,7 +135,6 @@ export class Field extends FieldSettings {
       case FieldTypeEnum.RADIO:
         this.value = false;
         break;
-      case FieldTypeEnum.HIDDEN:
       case FieldTypeEnum.CUSTOM:
         this.value = null;
         break;
@@ -135,10 +142,6 @@ export class Field extends FieldSettings {
         this.value = "";
         break;
     }
-  }
-
-  private getErrorMessage(key: keyof FieldErrorMessages): string {
-    return (this.errorMessages && this.errorMessages[key]) || DEFAULT_ERROR_MESSAGES[key] || "";
   }
 
   /**
@@ -224,7 +227,9 @@ export class Field extends FieldSettings {
       const validationFailed = this.customValidations.find(
         validation => !validation.validate(this.value, formData)
       );
-      this._error = validationFailed ? this.getErrorMessage("validation") : null;
+      this._error = validationFailed
+        ? validationFailed.errorMessage || this.getErrorMessage("validation")
+        : null;
     }
 
     return !this._error;

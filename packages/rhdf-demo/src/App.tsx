@@ -1,12 +1,16 @@
 import React from "react";
 
-import { Form } from "react-hooks-dynamic-form";
+import JsForm from "./JsForm";
+import TsForm from "./TsForm";
+
 import "./App.css";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Form />
+      <JsForm />
+      <br />
+      <TsForm remoteData={{ phone: "01-02-03-04-05" }} />
     </div>
   );
 };

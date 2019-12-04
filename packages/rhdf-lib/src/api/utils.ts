@@ -1,11 +1,6 @@
-import { Field, FieldTypeEnum, FieldValueType, FieldSettings } from "./Field";
+import { Field, FieldValueType, FieldSettings } from "./field";
+import { FormData, FormValues } from "./form";
 
-export interface FormData {
-  [fieldName: string]: Field;
-}
-export interface FormValues {
-  [fieldName: string]: FieldValueType;
-}
 export interface ValidationResult<T extends Field | FormData> {
   isValid: boolean;
   updatedData: T;
@@ -14,9 +9,13 @@ export interface ValidationResult<T extends Field | FormData> {
 /**
  * Generate form data by normalizing fields settings array
  * @param fields Array field settings
- * @param defaultValues fields values from parent
+ * @param  remoteValues fields values from parent
  */
-export const generateFormData = (fields: FieldSettings[], defaultValues?: FormValues): FormData => {
+export const generateFormData = (
+  fields: FieldSettings[],
+  defaultSettings?: Partial<FieldSettings>,
+  remoteValues?: FormValues
+): FormData => {
   const allFields = fields.reduce<FieldSettings[]>(
     (acc, field) => acc.concat(field.type === "fieldset" ? field.children || [] : field),
     []
@@ -28,9 +27,18 @@ export const generateFormData = (fields: FieldSettings[], defaultValues?: FormVa
     if (!name) {
       return acc;
     }
+    // Merge default all fields settings with specific field settings
+    const errorMessagesSettings = Object.assign(
+      {},
+      defaultSettings && defaultSettings.errorMessages,
+      fieldSettings.errorMessages
+    );
+
     const field = new Field({
+      ...defaultSettings,
       ...fieldSettings,
-      ...(defaultValues && defaultValues[name] ? { value: defaultValues[name] } : {}),
+      errorMessages: errorMessagesSettings,
+      ...(remoteValues && remoteValues[name] ? { value: remoteValues[name] } : {}),
     });
     return {
       ...acc,

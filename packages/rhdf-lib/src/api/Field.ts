@@ -1,6 +1,4 @@
-import { FormData } from "./utils";
-
-const DEFAULT_ISREQUIRED_MESSAGE = "This field is required";
+import { FormData } from "./form";
 
 export enum FieldTypeEnum {
   TEXT = "text",
@@ -29,7 +27,20 @@ export type FieldCustomValidationType = {
    * validate field value, formData is also passed as parameter, example of use case: validate A based on B value
    */
   validate: (value: FieldValueType, formData?: FormData) => boolean;
-  errorMessage: string;
+  errorMessage?: string;
+};
+
+export interface FieldErrorMessages {
+  isRequired?: string;
+  email?: string;
+  phone?: string;
+  validation?: string;
+}
+const DEFAULT_ERROR_MESSAGES: FieldErrorMessages = {
+  isRequired: "This field is required !",
+  email: "Invalid email",
+  phone: "Invalid phone number",
+  validation: "Invalid field value",
 };
 
 export abstract class FieldSettings {
@@ -46,13 +57,16 @@ export abstract class FieldSettings {
    * isRequired: can be boolean or a function with formData as parameter, example of use case: A is required if B is filled
    */
   isRequired?: boolean | ((formData?: FormData) => boolean) = false;
-  isRequiredMessage?: string;
 
   /**
    * Custom validations methods
    */
   customValidations?: FieldCustomValidationType[] = [];
-  defaultValidationMessage?: string;
+
+  /**
+   * Error messages
+   */
+  errorMessages?: FieldErrorMessages;
 
   /**
    * Only available to "custom" type
@@ -123,6 +137,10 @@ export class Field extends FieldSettings {
     }
   }
 
+  private getErrorMessage(key: keyof FieldErrorMessages): string {
+    return (this.errorMessages && this.errorMessages[key]) || DEFAULT_ERROR_MESSAGES[key] || "";
+  }
+
   /**
    * PRIVATE: set default validations
    */
@@ -146,11 +164,11 @@ export class Field extends FieldSettings {
               (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
             );
           },
-          errorMessage: this.defaultValidationMessage || "Invalid email",
+          errorMessage: this.getErrorMessage("email"),
         });
         break;
       case FieldTypeEnum.PHONE:
-        // Auto add a default french phone validation
+        // Auto add a default phone validation
         this.type = "text";
         this.customValidations.push({
           validate: (value: FieldValueType) => {
@@ -159,7 +177,7 @@ export class Field extends FieldSettings {
               (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
             );
           },
-          errorMessage: this.defaultValidationMessage || "Invalid phone",
+          errorMessage: this.getErrorMessage("phone"),
         });
         break;
       default:
@@ -198,7 +216,7 @@ export class Field extends FieldSettings {
           this.value === null ||
           this.value === "" ||
           this.value === false)
-          ? this.isRequiredMessage || DEFAULT_ISREQUIRED_MESSAGE
+          ? this.getErrorMessage("isRequired")
           : null;
     }
 
@@ -206,9 +224,7 @@ export class Field extends FieldSettings {
       const validationFailed = this.customValidations.find(
         validation => !validation.validate(this.value, formData)
       );
-      this._error = validationFailed
-        ? validationFailed.errorMessage || this.defaultValidationMessage || "Invalid input"
-        : null;
+      this._error = validationFailed ? this.getErrorMessage("validation") : null;
     }
 
     return !this._error;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { FieldSettings, useFormApi } from "react-hooks-dynamic-form";
+import { FieldSettings, FormValues, useFormApi } from "react-hooks-dynamic-form";
 
 import "./TsForm.css";
 
@@ -34,12 +34,23 @@ const FORM_FIELDS: Array<FieldSettings> = [
     label: "Phone number",
     placeholder: "Your Phone",
     isRequired: true,
+    errorMessages: {
+      isRequired: "I NEED THIS PHONE NUMBER !",
+      phone: "I WANT A BETTER NUMBER !",
+    },
   } as FieldSettings,
 ];
+const DEFAULT_SETTINGS = { errorMessages: { isRequired: "I NEED THIS FIELD !" } };
 
-const TsForm: React.FC = () => {
+type TsFormProps = {
+  remoteData?: object;
+};
+
+const TsForm: React.FC<TsFormProps> = ({ remoteData }: TsFormProps) => {
   const { isInit, values, setFieldValue, validateField, getFieldInputError } = useFormApi(
-    FORM_FIELDS
+    FORM_FIELDS,
+    DEFAULT_SETTINGS,
+    remoteData as FormValues
   );
   return isInit ? (
     <div className="my-form">

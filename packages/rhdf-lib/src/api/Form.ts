@@ -1,15 +1,25 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { FieldValueType, FieldSettings } from "./Field";
-import {
-  FormData,
-  FormValues,
-  generateFormData,
-  updateFormField,
-  validateField,
-  validateForm,
-} from "./utils";
+import { Field, FieldValueType, FieldSettings, FieldErrorMessages } from "./field";
+import { generateFormData, updateFormField, validateField, validateForm } from "./utils";
 
+/**
+ * Form data with fields map
+ */
+export interface FormData {
+  [fieldName: string]: Field;
+}
+
+/**
+ * Field values map { [name]: value}
+ */
+export interface FormValues {
+  [fieldName: string]: FieldValueType;
+}
+
+/**
+ * Form API client interface
+ */
 export interface FormApi {
   isInit: boolean;
   isValid: boolean;
@@ -21,18 +31,27 @@ export interface FormApi {
   resetForm: () => void;
 }
 
-//TO-DO defaultOptions : validateOnChange ...
-
-export const useFormApi = (fields: FieldSettings[], defaultValues?: FormValues): FormApi => {
+/**
+ * Form API library entry point to generate and reuse all Form API function
+ * @param fields
+ * @param defaultSettings
+ * @param remoteValues
+ */
+export const useFormApi = (
+  fields: FieldSettings[],
+  defaultSettings?: Partial<FieldSettings>,
+  remoteValues?: FormValues
+): FormApi => {
   const [formData, setFormData] = useState<FormData | null>(null);
 
+  // TO-DO BUG IF defaultSettings is inline setup => infinity loop
   const resetForm = useCallback(() => {
-    const data = generateFormData(fields, defaultValues);
+    const data = generateFormData(fields, defaultSettings, remoteValues);
     setFormData(data);
-  }, [fields, defaultValues]);
+  }, [fields, defaultSettings, remoteValues]);
 
   useEffect(() => {
-    // 1st init when fields or defaultValues change
+    // 1st init when fields or  remoteValues change
     resetForm();
   }, [resetForm]);
 

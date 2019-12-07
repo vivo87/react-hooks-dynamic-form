@@ -10,6 +10,7 @@ coverage
 build
 dist
 cache
+storybook-static
 
 # misc
 .DS_Store

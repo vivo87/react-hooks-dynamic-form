@@ -9,7 +9,7 @@ export interface ValidationResult<T extends Field | FormData> {
 /**
  * Generate form data by normalizing fields settings array
  * @param fields Array field settings
- * @param  remoteValues fields values from parent
+ * @param remoteValues fields values from parent
  */
 export const generateFormData = (
   fields: FieldSettings[],

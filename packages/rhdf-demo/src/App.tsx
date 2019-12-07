@@ -1,7 +1,7 @@
 import React from "react";
 
-import JsForm from "./JsForm";
-import TsForm from "./TsForm";
+import JsForm from "./components/JsForm";
+import TsForm from "./components/TsForm";
 
 import "./App.css";
 

@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.build",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./cache/.tsbuildinfo",
+    "watch": true
+  }
+}

@@ -2,6 +2,7 @@
   "name": "rhdf-demo",
   "version": "0.1.0",
   "private": true,
+  "description": "React Hooks Dynamic Form - Demo with Storybook",
   "dependencies": {
     "@types/jest": "24.0.23",
     "@types/node": "12.12.8",
@@ -15,7 +16,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -31,5 +35,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@storybook/addon-actions": "^5.2.8",
+    "@storybook/addon-info": "^5.2.8",
+    "@storybook/addon-links": "^5.2.8",
+    "@storybook/addons": "^5.2.8",
+    "@storybook/preset-create-react-app": "^1.3.2",
+    "@storybook/react": "^5.2.8",
+    "babel-loader": "^8.0.6"
   }
 }

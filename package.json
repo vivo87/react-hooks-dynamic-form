@@ -6,6 +6,7 @@
     "name": "Viet VO",
     "email": "vongocviet@gmail.com"
   },
+  "description": "A React Form lib with demo",
   "repository": {
     "type": "git",
     "url": "https://github.com/vivo87/react-hooks-dynamic-form.git"

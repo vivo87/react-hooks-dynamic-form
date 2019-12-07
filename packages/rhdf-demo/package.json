@@ -1,8 +1,8 @@
 {
-  "name": "rhdf-demo",
+  "name": "react-hooks-dynamic-form-demo",
   "version": "0.1.0",
   "private": true,
-  "description": "React Hooks Dynamic Form - Demo with Storybook",
+  "description": "React Hooks Dynamic Form - Demo with CRA & Storybook",
   "dependencies": {
     "@types/jest": "24.0.23",
     "@types/node": "12.12.8",

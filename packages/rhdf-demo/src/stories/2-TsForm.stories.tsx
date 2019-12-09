@@ -6,4 +6,4 @@ export default {
   component: TsForm,
 };
 
-export const example: FC = () => <TsForm />;
+export const example: FC = () => <TsForm remoteData={{ phone: "01-02-03-04-05" }} />;

@@ -42,9 +42,9 @@ const FORM_FIELDS: Array<FieldSettings> = [
 ];
 const DEFAULT_SETTINGS = { errorMessages: { isRequired: "I NEED THIS FIELD !" } };
 
-type TsFormProps = {
+interface TsFormProps {
   remoteData?: object;
-};
+}
 
 const TsForm: React.FC<TsFormProps> = ({ remoteData }: TsFormProps) => {
   const { isInit, values, setFieldValue, validateField, getFieldInputError } = useFormApi(

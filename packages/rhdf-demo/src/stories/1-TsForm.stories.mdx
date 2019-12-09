@@ -1,0 +1,18 @@
+import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
+import TsForm from "../components/TsForm";
+
+<Meta title="TsForm mdx" />
+
+Here's some _markdown_!
+
+# Preview
+
+<Preview>
+  <Story name="TsForm">
+    <TsForm remoteData={{ phone: "01-02-03-04-05" }} />
+  </Story>
+</Preview>
+
+# Props
+
+<Props of={TsForm} />

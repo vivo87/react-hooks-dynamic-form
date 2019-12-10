@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import JsForm from "../components/JsForm";
+import JsForm from "./JsForm";
 
 export default {
   title: "JsForm",

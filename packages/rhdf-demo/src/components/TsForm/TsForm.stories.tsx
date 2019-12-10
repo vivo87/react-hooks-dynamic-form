@@ -1,8 +1,9 @@
 import React, { FC } from "react";
-import TsForm from "../components/TsForm";
+
+import TsForm from "./TsForm";
 
 export default {
-  title: "TsForm tsx",
+  title: "TS Form CSF",
   component: TsForm,
 };
 

@@ -46,6 +46,9 @@ interface TsFormProps {
   remoteData?: object;
 }
 
+/**
+ * Custom Typescript Form with library's `useFormApi` custom hooks
+ */
 const TsForm: React.FC<TsFormProps> = ({ remoteData }: TsFormProps) => {
   const { isInit, values, setFieldValue, validateField, getFieldInputError } = useFormApi(
     FORM_FIELDS,

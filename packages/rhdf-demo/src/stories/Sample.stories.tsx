@@ -3,6 +3,8 @@ import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Sample",
+  // Hide this component
+  includeStories: [],
 };
 
 interface ButtonProps {

@@ -22,7 +22,6 @@ export interface FormValues {
  */
 export interface FormApi {
   isInit: boolean;
-  isValid: boolean;
   values: FormValues;
   setFieldValue: (name: string, value: FieldValueType) => void;
   validateField: (name: string) => void;
@@ -40,7 +39,7 @@ export interface FormApi {
 export const useFormApi = (
   fields: FieldSettings[],
   defaultSettings?: Partial<FieldSettings>,
-  remoteValues?: FormValues
+  remoteValues?: Partial<FormValues>
 ): FormApi => {
   const [formData, setFormData] = useState<FormData | null>(() =>
     // Init once without remote value
@@ -86,14 +85,13 @@ export const useFormApi = (
   const values: FormValues = fields.reduce(
     (acc, { name }) => ({
       ...acc,
-      ...(formData && formData[name] ? { [name]: formData[name].value } : {}),
+      ...(formData && name && formData[name] ? { [name]: formData[name].value } : {}),
     }),
     {}
   );
 
   return {
     isInit: !!formData,
-    isValid: false,
     values,
     setFieldValue: handleFieldChange,
     validateField: handleFieldValidate,

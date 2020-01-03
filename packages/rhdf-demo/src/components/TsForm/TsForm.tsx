@@ -4,7 +4,7 @@ import { FieldSettings, FormValues, useFormApi } from "react-hooks-dynamic-form"
 
 import "./TsForm.css";
 
-const FORM_FIELDS: Array<FieldSettings> = [
+const FORM_FIELDS = [
   {
     type: "text",
     name: "login",
@@ -13,21 +13,21 @@ const FORM_FIELDS: Array<FieldSettings> = [
     placeholder: "Your ID",
     isRequired: true,
     validateOnChange: true,
-  } as FieldSettings,
+  },
   {
     type: "password",
     name: "password",
     label: "Password",
     placeholder: "Your Password",
     isRequired: true,
-  } as FieldSettings,
+  },
   {
     type: "email",
     name: "email",
     label: "Email",
     placeholder: "Your Email",
     isRequired: true,
-  } as FieldSettings,
+  },
   {
     type: "phone",
     name: "phone",
@@ -38,12 +38,14 @@ const FORM_FIELDS: Array<FieldSettings> = [
       isRequired: "I NEED THIS PHONE NUMBER !",
       phone: "I WANT A BETTER NUMBER !",
     },
-  } as FieldSettings,
+  },
 ];
-const DEFAULT_SETTINGS = { errorMessages: { isRequired: "I NEED THIS FIELD !" } };
+const DEFAULT_SETTINGS: Partial<FieldSettings> = {
+  errorMessages: { isRequired: "I NEED THIS FIELD !" },
+};
 
 interface TsFormProps {
-  remoteData?: object;
+  remoteData?: FormValues;
 }
 
 /**

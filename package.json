@@ -29,7 +29,7 @@
   },
   "scripts": {
     "install": "lerna bootstrap",
-    "build": "lerna run build",
+    "build": "lerna run publish-local && lerna run build-storybook",
     "start": "lerna run publish-local && lerna run start --parallel",
     "lint": "eslint --ext=jsx,ts,tsx packages/rhdf*/src"
   },

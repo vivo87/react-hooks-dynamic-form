@@ -13,29 +13,22 @@
   "[typescriptreact]": {
     "editor.formatOnSave": false
   },
-  "eslint.autoFixOnSave": true,
-  "eslint.options": {
-    "extensions": [".js", ".jsx", ".md", ".mdx", ".ts", ".tsx"]
+  // Deprecated. Use editor.codeActionsOnSave instead with a source.fixAll.eslint member
+  //"eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   },
+  // Deprecated
+  // "eslint.options": {
+  //   "extensions": [".js", ".jsx", ".md", ".mdx", ".ts", ".tsx"]
+  // },
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    {
-      "language": "markdown",
-      "autoFix": true
-    },
-    {
-      "language": "mdx",
-      "autoFix": true
-    },
-    {
-      "language": "typescript",
-      "autoFix": true
-    },
-    {
-      "language": "typescriptreact",
-      "autoFix": true
-    }
+    "markdown",
+    "mdx",
+    "typescript",
+    "typescriptreact"
   ]
   // We now use the same eslintrc so no need per directory
   // "eslint.workingDirectories": [

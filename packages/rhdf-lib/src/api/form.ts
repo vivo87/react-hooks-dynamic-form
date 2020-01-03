@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { Field, FieldValueType, FieldSettings, FieldErrorMessages } from "./field";
+import { Field, FieldValueType, FieldSettings } from "./field";
 import { generateFormData, updateFormField, validateField, validateForm } from "./utils";
 
 /**
@@ -42,18 +42,27 @@ export const useFormApi = (
   defaultSettings?: Partial<FieldSettings>,
   remoteValues?: FormValues
 ): FormApi => {
-  const [formData, setFormData] = useState<FormData | null>(null);
+  const [formData, setFormData] = useState<FormData | null>(() =>
+    // Init once without remote value
+    generateFormData(fields, defaultSettings)
+  );
 
-  // TO-DO BUG IF defaultSettings is inline setup => infinity loop
+  useEffect(() => {
+    // Remote values can be lazily loaded
+    if (remoteValues) {
+      setFormData(currentFormData =>
+        Object.entries(remoteValues).reduce(
+          (updatedData, [name, value]) => updateFormField(updatedData, name, value),
+          currentFormData as FormData
+        )
+      );
+    }
+  }, [remoteValues]);
+
   const resetForm = useCallback(() => {
     const data = generateFormData(fields, defaultSettings, remoteValues);
     setFormData(data);
   }, [fields, defaultSettings, remoteValues]);
-
-  useEffect(() => {
-    // 1st init when fields or  remoteValues change
-    resetForm();
-  }, [resetForm]);
 
   const handleFieldChange = useCallback((name: string, value: FieldValueType) => {
     setFormData(currentFormData => updateFormField(currentFormData as FormData, name, value));

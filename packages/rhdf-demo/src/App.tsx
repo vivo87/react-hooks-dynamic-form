@@ -10,7 +10,7 @@ const App: React.FC = () => {
     <div className="App">
       <JsForm />
       <br />
-      <TsForm remoteData={{ phone: "01-02-03-04-05" }} />
+      <TsForm remoteData={{ login: "John Doe", phone: "01-02-03-04-05" }} />
     </div>
   );
 };

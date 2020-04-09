@@ -56,7 +56,7 @@ export const useFormApi = (
         )
       );
     }
-  }, [remoteValues]);
+  }, []);
 
   const resetForm = useCallback(() => {
     const data = generateFormData(fields, defaultSettings, remoteValues);

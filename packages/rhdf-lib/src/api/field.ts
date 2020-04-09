@@ -81,7 +81,7 @@ export abstract class FieldSettings {
   /**
    * "value" field should only be set at initialization, use setInputValue to update field value
    */
-  public value?: FieldValueType;
+  value?: FieldValueType;
 }
 
 export class Field extends FieldSettings {

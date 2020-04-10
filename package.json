@@ -29,9 +29,10 @@
   },
   "scripts": {
     "install": "lerna bootstrap",
-    "build": "lerna run publish-local && lerna run build-storybook",
-    "start": "lerna run publish-local && lerna run start --parallel",
-    "lint": "eslint --ext=jsx,ts,tsx packages/rhdf*/src"
+    "postinstall": "npm link ./packages/rhdf-demo/node_modules/react",
+    "build": "lerna run prepare && lerna run build-storybook",
+    "start": "lerna run prepare && lerna run start --parallel",
+    "lint": "eslint --fix --ext=jsx,ts,tsx --rule 'react-hooks/exhaustive-deps: off' packages/rhdf*/src"
   },
   "husky": {
     "hooks": {

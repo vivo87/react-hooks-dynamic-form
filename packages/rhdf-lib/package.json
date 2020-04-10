@@ -11,20 +11,17 @@
   "homepage": "https://github.com/vivo87/react-hooks-dynamic-form",
   "license": "ISC",
   "main": "dist/index.js",
-  "files": [
-    "src/**/*"
-  ],
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vivo87/react-hooks-dynamic-form.git"
   },
   "scripts": {
     "install": "npm link ../rhdf-demo/node_modules/react && npm link ../rhdf-demo/node_modules/react-dom",
-    "postinstall": "npm run publish-local",
-    "start": "concurrently \"tsc -p tsconfig.dev.json\"",
+    "start": "concurrently \"tsc -p tsconfig.dev.json\" \"echo 'any other compiler (css ...)'\"",
     "build": "tsc -p tsconfig.build.json",
     "clean": "rm -rf ./cache ./dist",
-    "publish-local": "npm run build",
+    "prepare": "npm run build",
     "test": "jest",
     "test-commit": "jest --bail --findRelatedTests"
   },

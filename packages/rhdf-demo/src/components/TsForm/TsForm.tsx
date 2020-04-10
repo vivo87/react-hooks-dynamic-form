@@ -1,10 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 
-import { FieldSettings, FormValues, useFormApi } from "react-hooks-dynamic-form";
+import { FieldSettings, useFormApi } from "react-hooks-dynamic-form";
 
 import "./TsForm.css";
 
-const FORM_FIELDS: Array<FieldSettings> = [
+const FORM_FIELDS = [
   {
     type: "text",
     name: "login",
@@ -13,21 +13,21 @@ const FORM_FIELDS: Array<FieldSettings> = [
     placeholder: "Your ID",
     isRequired: true,
     validateOnChange: true,
-  } as FieldSettings,
+  },
   {
     type: "password",
     name: "password",
     label: "Password",
     placeholder: "Your Password",
     isRequired: true,
-  } as FieldSettings,
+  },
   {
     type: "email",
     name: "email",
     label: "Email",
     placeholder: "Your Email",
     isRequired: true,
-  } as FieldSettings,
+  },
   {
     type: "phone",
     name: "phone",
@@ -38,19 +38,24 @@ const FORM_FIELDS: Array<FieldSettings> = [
       isRequired: "I NEED THIS PHONE NUMBER !",
       phone: "I WANT A BETTER NUMBER !",
     },
-  } as FieldSettings,
+  },
 ];
-const DEFAULT_SETTINGS = { errorMessages: { isRequired: "I NEED THIS FIELD !" } };
-
-type TsFormProps = {
-  remoteData?: object;
+const DEFAULT_SETTINGS: Partial<FieldSettings> = {
+  errorMessages: { isRequired: "I NEED THIS FIELD !" },
 };
 
-const TsForm: React.FC<TsFormProps> = ({ remoteData }: TsFormProps) => {
+interface TsFormProps {
+  remoteData?: Record<string, any>;
+}
+
+/**
+ * Custom Typescript Form with library's `useFormApi` custom hooks
+ */
+const TsForm: FC<TsFormProps> = ({ remoteData }: TsFormProps) => {
   const { isInit, values, setFieldValue, validateField, getFieldInputError } = useFormApi(
     FORM_FIELDS,
     DEFAULT_SETTINGS,
-    remoteData as FormValues
+    remoteData
   );
   return isInit ? (
     <div className="my-form">

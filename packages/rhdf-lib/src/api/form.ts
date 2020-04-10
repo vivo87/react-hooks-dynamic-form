@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { Field, FieldValueType, FieldSettings, FieldErrorMessages } from "./field";
+import { Field, FieldValueType, FieldSettings } from "./field";
 import { generateFormData, updateFormField, validateField, validateForm } from "./utils";
 
 /**
@@ -22,7 +22,6 @@ export interface FormValues {
  */
 export interface FormApi {
   isInit: boolean;
-  isValid: boolean;
   values: FormValues;
   setFieldValue: (name: string, value: FieldValueType) => void;
   validateField: (name: string) => void;
@@ -40,20 +39,29 @@ export interface FormApi {
 export const useFormApi = (
   fields: FieldSettings[],
   defaultSettings?: Partial<FieldSettings>,
-  remoteValues?: FormValues
+  remoteValues?: Partial<FormValues>
 ): FormApi => {
-  const [formData, setFormData] = useState<FormData | null>(null);
+  const [formData, setFormData] = useState<FormData | null>(() =>
+    // Init once without remote value
+    generateFormData(fields, defaultSettings)
+  );
 
-  // TO-DO BUG IF defaultSettings is inline setup => infinity loop
+  useEffect(() => {
+    // Remote values can be lazily loaded
+    if (remoteValues) {
+      setFormData(currentFormData =>
+        Object.entries(remoteValues).reduce(
+          (updatedData, [name, value]) => updateFormField(updatedData, name, value),
+          currentFormData as FormData
+        )
+      );
+    }
+  }, [remoteValues]);
+
   const resetForm = useCallback(() => {
     const data = generateFormData(fields, defaultSettings, remoteValues);
     setFormData(data);
   }, [fields, defaultSettings, remoteValues]);
-
-  useEffect(() => {
-    // 1st init when fields or  remoteValues change
-    resetForm();
-  }, [resetForm]);
 
   const handleFieldChange = useCallback((name: string, value: FieldValueType) => {
     setFormData(currentFormData => updateFormField(currentFormData as FormData, name, value));
@@ -77,14 +85,13 @@ export const useFormApi = (
   const values: FormValues = fields.reduce(
     (acc, { name }) => ({
       ...acc,
-      ...(formData && formData[name] ? { [name]: formData[name].value } : {}),
+      ...(formData && name && formData[name] ? { [name]: formData[name].value } : {}),
     }),
     {}
   );
 
   return {
     isInit: !!formData,
-    isValid: false,
     values,
     setFieldValue: handleFieldChange,
     validateField: handleFieldValidate,

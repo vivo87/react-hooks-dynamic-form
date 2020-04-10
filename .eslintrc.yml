@@ -1,8 +1,9 @@
 extends:
-  - "eslint:recommended"
+  - "plugin:mdx/recommended"
   - "plugin:import/recommended"
   - "plugin:import/typescript"
   - "plugin:react/recommended"
+  - "eslint:recommended"
   - "plugin:@typescript-eslint/eslint-recommended"
   - "plugin:@typescript-eslint/recommended"
   - "plugin:prettier/recommended"
@@ -29,3 +30,13 @@ overrides:
       jest: true
     files:
       - "src/**/*.{test,spec}.{js,jsx,ts,tsx}"
+  - files:
+      - "*.md"
+    rules:
+      prettier/prettier:
+        - 2
+        - parser: markdown
+  - files:
+      - "*.{md,mdx}"
+    extends:
+      - plugin:mdx/overrides

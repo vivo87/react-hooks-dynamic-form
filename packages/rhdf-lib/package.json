@@ -20,10 +20,11 @@
   },
   "scripts": {
     "install": "npm link ../rhdf-demo/node_modules/react && npm link ../rhdf-demo/node_modules/react-dom",
-    "postinstall": "npm run build",
-    "start": "concurrently \"tsc -p tsconfig.build.json --watch\"",
+    "postinstall": "npm run publish-local",
+    "start": "concurrently \"tsc -p tsconfig.dev.json\"",
     "build": "tsc -p tsconfig.build.json",
     "clean": "rm -rf ./cache ./dist",
+    "publish-local": "npm run build",
     "test": "jest",
     "test-commit": "jest --bail --findRelatedTests"
   },

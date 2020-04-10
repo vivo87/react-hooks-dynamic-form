@@ -6,6 +6,7 @@
     "name": "Viet VO",
     "email": "vongocviet@gmail.com"
   },
+  "description": "A React Form lib with demo",
   "repository": {
     "type": "git",
     "url": "https://github.com/vivo87/react-hooks-dynamic-form.git"
@@ -16,6 +17,7 @@
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.6.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-mdx": "^1.6.3",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.3.0",
@@ -27,8 +29,8 @@
   },
   "scripts": {
     "install": "lerna bootstrap",
-    "build": "lerna run clean && lerna run build",
-    "start": "lerna run build && lerna run start --parallel",
+    "build": "lerna run publish-local && lerna run build-storybook",
+    "start": "lerna run publish-local && lerna run start --parallel",
     "lint": "eslint --ext=jsx,ts,tsx packages/rhdf*/src"
   },
   "husky": {
@@ -38,7 +40,7 @@
   },
   "lint-staged": {
     "**/src/**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+      "eslint --fix --rule 'react-hooks/exhaustive-deps: off'",
       "lerna run test-commit --stream --",
       "git add"
     ]

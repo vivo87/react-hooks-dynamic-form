@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { useFormApi } from "react-hooks-dynamic-form";
 
@@ -34,10 +35,13 @@ const FORM_FIELDS = [
 ];
 
 const JsForm = () => {
-  const { data } = useFormApi(FORM_FIELDS);
-  console.log("JS Form", data);
+  const { values } = useFormApi(FORM_FIELDS);
 
-  return <div className="your-form">TO-DO JS Form</div>;
+  return <div className="your-form">TO-DO JS Form: {JSON.stringify(values)}</div>;
+};
+
+JsForm.propTypes = {
+  remoteData: PropTypes.object,
 };
 
 export default JsForm;

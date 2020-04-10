@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { FieldSettings, FormValues, useFormApi } from "react-hooks-dynamic-form";
+import { FieldSettings, useFormApi } from "react-hooks-dynamic-form";
 
 import "./TsForm.css";
 
@@ -45,7 +45,7 @@ const DEFAULT_SETTINGS: Partial<FieldSettings> = {
 };
 
 interface TsFormProps {
-  remoteData?: FormValues;
+  remoteData?: Record<string, any>;
 }
 
 /**

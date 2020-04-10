@@ -1,11 +1,8 @@
-import { Greeter, Form } from "./index";
+import { Form, useFormApi } from "./index";
 
 describe("Export contents", () => {
-  test("Greeter", () => {
-    expect(Greeter("John Doe")).toBe("Hello John Doe");
-  });
-
-  test("Form should be defined", () => {
+  test("Should be defined", () => {
+    expect(useFormApi).toBeDefined();
     expect(Form).toBeDefined();
   });
 });

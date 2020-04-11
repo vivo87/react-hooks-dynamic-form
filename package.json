@@ -28,7 +28,7 @@
     "typescript": "^3.7.2"
   },
   "scripts": {
-    "install": "lerna bootstrap",
+    "install": "lerna bootstrap && lerna run install:peer",
     "postinstall": "npm link ./packages/rhdf-demo/node_modules/react",
     "build": "lerna run prepare && lerna run build-storybook",
     "start": "lerna run prepare && lerna run start --parallel",

@@ -1,6 +1,4 @@
-<h1 style="text-align:center">React hooks dynamic form library</h1>
-
-# Introduction
+# React hooks dynamic form library
 
 A simple but powerful library for managing form states, either by using the custom React hooks API for managing your own form, or using the library's auto generated Form component (work in progress).
 
@@ -86,6 +84,8 @@ const remoteValues = { login: "Jane", phone: "01-02-03-04-05" };
 
 > These remote values will override all values from field definitions or common settings.
 
+<br/>
+
 ## 2. Using React Hooks API for managing your own form
 
 You can use the library form API for managing your own form. Form API provide these properties:
@@ -166,6 +166,8 @@ const CustomForm = () => {
 ```
 
 Each component update can cause an infinity loop a new `remoteValues` object is created. Therefore, only assign remoteValues in other scope (parent component, react hooks useState, useMemo ...)
+
+<br/>
 
 ## 3. Using the library's auto generated Form component
 

@@ -1,18 +1,10 @@
-<h1 style="text-align:center">React hooks dynamic forms library</h1>
+<h1 style="text-align:center">React hooks dynamic form library</h1>
 
 # Introduction
 
 A simple but powerful library for managing form states, either by using the custom React hooks API for managing your own form, or using the library's auto generated Form component (work in progress).
 
 # Getting Started
-
-## Requirements
-
-```
-NodeJs > 10.X
-```
-
-## Installation
 
 ```
 npm install --save react-hooks-dynamic-form
@@ -28,7 +20,7 @@ As introducted above, the library provide 2 ways for managing form states. Both 
 
 An array containing fields definitions.
 
-> The `name` property must be unique as being field key in the form
+> The `name` property must be unique as being field key in the form.
 
 ```javascript
 const FORM_FIELDS = [
@@ -69,11 +61,13 @@ const FORM_FIELDS = [
 ];
 ```
 
+> Please note, some properties are only for library's Form component, such as className, label, render ... In case of using API on user's own custom form, only logical properties for managing state are taken into account.
+
 ### Common settings for all fields
 
 We can provide a common settings for all fields.
 
-> Please note, these settings will be merged and eventually overridden by each specific field settings above
+> Please note, these settings will be merged and eventually overridden by each specific field settings above.
 
 ```javascript
 const DEFAULT_SETTINGS: Partial<FieldSettings> = {
@@ -84,15 +78,15 @@ const DEFAULT_SETTINGS: Partial<FieldSettings> = {
 
 ### Remote values
 
-Sometimes the fields values can't be defined on initialization but rather dynamically from external sources (such as server-side or parent components ...). In this case we can pass an object containing `key : value` combos and the library will take care of updating the form accordingly.
+Sometimes the fields values can't be defined on initialization but rather dynamically from external sources (such as server-side or parent components ...). In this case we can pass an object containing `key : value` combos and the library will watch for values change and take care of updating the form accordingly.
 
 ```javascript
 const remoteValues = { login: "Jane", phone: "01-02-03-04-05" };
 ```
 
-> Please note, these values will override all values from field definitions or common settings.
+> These remote values will override all values from field definitions or common settings.
 
-## 2. React Hooks API for managing your own form
+## 2. Using React Hooks API for managing your own form
 
 You can use the library form API for managing your own form. Form API provide these properties:
 
@@ -155,8 +149,28 @@ const CustomForm = ({ remoteData }) => {
 };
 ```
 
+> Please note, remoteValues are subject for useEffect immutable dependencies. they `MUST NOT` be assigned inline with useFormApi call in order to avoid infinity loop overload. See example below.
+
+Considering this example with inline initialization of remoteValues:
+
+```javascript
+import { useFormApi } from "react-hooks-dynamic-form";
+
+const CustomForm = () => {
+  const { values, setFieldValue } = useFormApi(FORM_FIELDS, DEFAULT_SETTINGS, {
+    fieldA: "value A",
+    fieldB: "value B",
+  });
+  return <form>Anything...</form>;
+};
+```
+
+Each component update can cause an infinity loop a new `remoteValues` object is created. Therefore, only assign remoteValues in other scope (parent component, react hooks useState, useMemo ...)
+
 ## 3. Using the library's auto generated Form component
 
+Following the next major release, the library will provide an auto generated Form component that also take care of the form rendering according to field settings.
+
 ```
-WORK IN PROGRESS
+WORK IN PROGRESS ...
 ```

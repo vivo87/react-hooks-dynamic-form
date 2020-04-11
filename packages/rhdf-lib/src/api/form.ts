@@ -32,9 +32,9 @@ export interface FormApi {
 
 /**
  * Form API library entry point to generate and reuse all Form API function
- * @param fields
- * @param defaultSettings
- * @param remoteValues
+ * @param fields field definitions array
+ * @param defaultSettings common settings for all fields
+ * @param remoteValues in case fields values are remote (server, parents components ...)
  */
 export const useFormApi = (
   fields: FieldSettings[],

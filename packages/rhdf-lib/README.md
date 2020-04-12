@@ -14,36 +14,15 @@ npm install --save react-hooks-dynamic-form
 
 As introducted above, the library provide 2 ways for managing form states. Both ways start by setting the form parameters:
 
-### Fields
+### 1.1. Field definitions
 
 An array containing fields definitions.
-
-> The `name` property must be unique as being field key in the form.
 
 ```javascript
 const FORM_FIELDS = [
   {
-    type: "text",
-    name: "login",
-    value: "johndoe",
-    label: "ID",
-    placeholder: "Your ID",
-    isRequired: true,
-    validateOnChange: true,
-  },
-  {
-    type: "password",
-    name: "password",
-    label: "Password",
-    placeholder: "Your Password",
-    isRequired: true,
-  },
-  {
     type: "email",
     name: "email",
-    label: "Email",
-    placeholder: "Your Email",
-    isRequired: true,
   },
   {
     type: "phone",
@@ -51,6 +30,7 @@ const FORM_FIELDS = [
     label: "Phone number",
     placeholder: "Your Phone",
     isRequired: true,
+    validateOnChange: true,
     errorMessages: {
       isRequired: "I NEED THIS PHONE NUMBER !",
       phone: "I WANT A BETTER NUMBER !",
@@ -59,22 +39,43 @@ const FORM_FIELDS = [
 ];
 ```
 
-> Please note, some properties are only for library's Form component, such as className, label, render ... In case of using API on user's own custom form, only logical properties for managing state are taken into account.
+> Please note, some properties are only for library's Form Component, such as className, label, render ... In case of using API on user's own custom form, only logical properties for managing state are taken into account. See list below.
 
-### Common settings for all fields
+#### _--- Common settings for Form API and Form Component_
 
-We can provide a common settings for all fields.
+| Property          | Type                | Description                                                                                                                                         | Default                                                                                                                          |
+| ----------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| name              | string              | HTML name attribute, also used as field identifier in the form, must be unique                                                                      |                                                                                                                                  |
+| type              | string              | Field type that will be use for adding default validation rule and render method when using Form component. See FieldTypeEnum for available option  | `"text"`                                                                                                                         |
+| value             | any                 | Initial field value                                                                                                                                 |                                                                                                                                  |
+| validateOnChange  | boolean             | If true, validate field on change                                                                                                                   | `false`                                                                                                                          |
+| validateOnBlur    | boolean             | If true, validate field on blur. Default assigned to reverse value of `validateOnChange`                                                            | `true`                                                                                                                           |
+| isRequired        | boolean \| function | If true, the field is required for validation. Can be a predicate with formData as parameter in case of conditional validation based on other field | `false`                                                                                                                          |
+| customValidations | Array               | Array of custom validations methods `{ validate: (value, formData) => boolean, errorMessage: string }`                                              | `[]`                                                                                                                             |
+| errorMessages     | Object              | Validation error messages. Please note, "email" and "phone" are only applicable to related type                                                     | `{ isRequired: "This field is required", email: "Invalid email", phone: "Invalid phone number", default: "Invalid field value"}` |
 
-> Please note, these settings will be merged and eventually overridden by each specific field settings above.
+#### _--- Settings only applicable to Form Component_
+
+| Property | Type | Description | Default |
+| -------- | ---- | ----------- | ------- |
+| Work     | In   | Progress    | 💯👍    |
+
+<br/>
+
+### 1.2. Default settings for all fields
+
+We can provide a default common settings for all fields.
+
+> Please note, these settings will be merged and eventually overridden by each specific field definition above.
 
 ```javascript
-const DEFAULT_SETTINGS: Partial<FieldSettings> = {
+const DEFAULT_SETTINGS = {
   validateOnBlur: true,
   errorMessages: { isRequired: "A custom message for required field" },
 };
 ```
 
-### Remote values
+### 1.3. Remote values
 
 Sometimes the fields values can't be defined on initialization but rather dynamically from external sources (such as server-side or parent components ...). In this case we can pass an object containing `key : value` combos and the library will watch for values change and take care of updating the form accordingly.
 
@@ -149,7 +150,7 @@ const CustomForm = ({ remoteData }) => {
 };
 ```
 
-> Please note, remoteValues are subject for useEffect immutable dependencies. they `MUST NOT` be assigned inline with useFormApi call in order to avoid infinity loop overload. See example below.
+> Please note, remoteValues are subject for useEffect immutable dependencies. These values **MUST NOT** be assigned inline with useFormApi call in order to avoid infinity loop overload. See example below.
 
 Considering this example with inline initialization of remoteValues:
 

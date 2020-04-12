@@ -23,7 +23,7 @@ to start both the 2 modules.
 
 # Release
 
-As the lib itself is under a subdirectory, it can't find the `.git` folder in root directory. Therefore, we must create a `.git` folder in `/packages/rhdf-lib` for `npm version` script to work properly. See [this issue](https://github.com/npm/npm/issues/9111).
+As the lib itself is under a subdirectory, it may not find the `.git` folder in root directory. Therefore, if this error occured, we must create a `.git` folder in `/packages/rhdf-lib` for `npm version` script to work properly. See [this issue](https://github.com/npm/npm/issues/9111).
 
 ```shell
 cd packages/rhdf-lib

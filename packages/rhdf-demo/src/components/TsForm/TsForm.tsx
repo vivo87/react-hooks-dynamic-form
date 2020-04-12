@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { FieldSettings, useFormApi } from "react-hooks-dynamic-form";
+import { useFormApi } from "react-hooks-dynamic-form";
 
 import "./TsForm.css";
 
@@ -40,7 +40,7 @@ const FORM_FIELDS = [
     },
   },
 ];
-const DEFAULT_SETTINGS: Partial<FieldSettings> = {
+const DEFAULT_SETTINGS = {
   errorMessages: { isRequired: "I NEED THIS FIELD !" },
 };
 

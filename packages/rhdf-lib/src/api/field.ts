@@ -1,5 +1,8 @@
 import { FormData } from "./form";
 
+/**
+ * [TYPE] Available value for field "type"
+ */
 export enum FieldTypeEnum {
   TEXT = "text",
   NUMBER = "number",
@@ -13,6 +16,9 @@ export enum FieldTypeEnum {
   CUSTOM = "custom",
 }
 
+/**
+ * [TYPE] Available type for field value
+ */
 export type FieldValueType =
   | string
   | number
@@ -22,66 +28,136 @@ export type FieldValueType =
   | null
   | undefined;
 
+/**
+ * [TYPE] Custom validation rule
+ */
 export type FieldCustomValidationType = {
   /**
-   * validate field value, formData is also passed as parameter, example of use case: validate A based on B value
+   * Check if field value is valid, a predicate with formData as parameter in case of conditional validation based on other field
    */
   validate: (value: FieldValueType, formData?: FormData) => boolean;
+  /**
+   * Error message for this validation rule
+   */
   errorMessage?: string;
 };
 
+/**
+ * [TYPE] Validation error messages
+ */
 export interface FieldErrorMessages {
+  /**
+   * isRequired error message
+   */
   isRequired?: string;
+  /**
+   * Email format error message
+   * (only applicable to "email" type)
+   */
   email?: string;
+  /**
+   * Phone format error message
+   * (only applicable to "phone" type)
+   */
   phone?: string;
-  validation?: string;
+  /**
+   * Default validation error message
+   */
+  default?: string;
 }
 const DEFAULT_ERROR_MESSAGES: FieldErrorMessages = {
-  isRequired: "This field is required !",
+  isRequired: "This field is required",
   email: "Invalid email",
   phone: "Invalid phone number",
-  validation: "Invalid field value",
+  default: "Invalid field value",
 };
 
+/**
+ * [TYPE] Field settings
+ */
 export abstract class FieldSettings {
-  name: string;
-  type?: string = "text";
-  label?: string;
-  placeholder?: string;
-  className?: string;
-  props?: object;
-  validateOnChange?: boolean = false;
-  validateOnBlur?: boolean;
+  //#region --- Common settings for Form API and Form Component
 
   /**
-   * isRequired: can be boolean or a function with formData as parameter, example of use case: A is required if B is filled
+   * HTML name attribute, also used as field identifier in the form, must be unique
+   */
+  name: string;
+  /**
+   * Field type that will be use for adding default validation rule and render method when using Form component
+   */
+  type?: string = "text";
+  /**
+   * Initial field value
+   */
+  value?: FieldValueType;
+  /**
+   * If true, validate field on change
+   */
+  validateOnChange?: boolean = false;
+  /**
+   * If true, validate field on blur. Default assigned to reverse value of validateOnChange
+   */
+  validateOnBlur?: boolean;
+  /**
+   * If true, the field is required for validation. Can be a predicate with formData as parameter in case of conditional validation based on other field
    */
   isRequired?: boolean | ((formData?: FormData) => boolean) = false;
-
   /**
    * Custom validations methods
    */
   customValidations?: FieldCustomValidationType[] = [];
-
   /**
-   * Error messages
+   * Validation error messages
    */
   errorMessages?: FieldErrorMessages;
 
+  //#endregion --- Common settings for Form API and Form Component
+
+  //#region --- Settings only applicable to Form Component
   /**
-   * Only available to "custom" type
+   * Field label
+   * (only applicable to Form Component)
+   */
+  label?: string;
+  /**
+   * Field placeholder
+   * (only applicable to Form Component)
+   */
+  placeholder?: string;
+  /**
+   * Field HTML class
+   * (only applicable to Form Component)
+   */
+  className?: string;
+  /**
+   * Label HTML class
+   * (only applicable to Form Component)
+   */
+  labelClassName?: string;
+  /**
+   * Wrapper (for label + field) HTML class
+   * (only applicable to Form Component)
+   */
+  wrapperClassName?: string;
+  /**
+   * Field extra props
+   * (only applicable to Form Component)
+   */
+  props?: Record<string, any>;
+
+  /**
+   * Field render method applicable to "custom" type
+   * (only applicable to Form Component)
    */
   render?: () => JSX.Element;
 
   /**
-   * Only available to "fieldset" type
+   * Field children applicable to "fieldset" type
+   * (only applicable to Form Component)
    */
   children?: Field[];
 
-  /**
-   * "value" field should only be set at initialization, use setInputValue to update field value
-   */
-  value?: FieldValueType;
+  //#endregion --- Settings only applicable to Form Component
 }
 
 export class Field extends FieldSettings {
@@ -90,7 +166,7 @@ export class Field extends FieldSettings {
   protected _error: string | null = null;
   //#endregion --- Form State Fields
 
-  public constructor(init?: Partial<FieldSettings>) {
+  public constructor(init?: FieldSettings) {
     super();
 
     Object.assign(this, init, {
@@ -222,7 +298,7 @@ export class Field extends FieldSettings {
         validation => !validation.validate(this.value, formData)
       );
       this._error = validationFailed
-        ? validationFailed.errorMessage || this.getErrorMessage("validation")
+        ? validationFailed.errorMessage || this.getErrorMessage("default")
         : null;
     }
 

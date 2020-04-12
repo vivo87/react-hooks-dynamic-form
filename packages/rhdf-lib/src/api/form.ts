@@ -39,7 +39,7 @@ export interface FormApi {
 export const useFormApi = (
   fields: FieldSettings[],
   defaultSettings?: Partial<FieldSettings>,
-  remoteValues?: Partial<FormValues>
+  remoteValues?: FormValues
 ): FormApi => {
   const [formData, setFormData] = useState<FormData | null>(() =>
     // Init once without remote value

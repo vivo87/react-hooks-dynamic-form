@@ -56,9 +56,9 @@ const FORM_FIELDS = [
 
 #### _--- Settings only applicable to Form Component_
 
-| Property | Type | Description | Default |
-| -------- | ---- | ----------- | ------- |
-| Work     | In   | Progress    | 💯👍    |
+| Property | Type | Description  | Default |
+| -------- | ---- | ------------ | ------- |
+| Work     | In   | Progress ... | 💯👍    |
 
 <br/>
 
@@ -166,7 +166,7 @@ const CustomForm = () => {
 };
 ```
 
-Each component update can cause an infinity loop a new `remoteValues` object is created. Therefore, only assign remoteValues in other scope (parent component, react hooks useState, useMemo ...)
+Each component update can cause an infinity loop as a new `remoteValues` object is created. Therefore, only assign remoteValues in other scope (parent component, react hooks useState, useMemo ...). Anyway, for the purpose of `remoteValues`, it will never be initialized inline this way but only by error.
 
 <br/>
 

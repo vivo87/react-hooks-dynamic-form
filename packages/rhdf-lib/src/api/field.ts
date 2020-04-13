@@ -4,15 +4,48 @@ import { FormData } from "./form";
  * [TYPE] Available value for field "type"
  */
 export enum FieldTypeEnum {
+  /**
+   * HTML Text input
+   */
   TEXT = "text",
+  /**
+   * HTML Number input
+   */
   NUMBER = "number",
+  /**
+   * Text input with default email format validation
+   */
   EMAIL = "email",
+  /**
+   * Text input with general phone format validation
+   */
   PHONE = "phone",
+  /**
+   * HTML password input
+   */
   PASSWORD = "password",
+  /**
+   * HTML hidden input
+   */
   HIDDEN = "hidden",
+  /**
+   * HTML textarea
+   */
   TEXTAREA = "textarea",
+  /**
+   * Generated checkbox
+   * (only applicable to Form Component)
+   */
   CHECKBOX = "checkbox",
+  /**
+   * Generated radio button
+   * (only applicable to Form Component)
+   */
   RADIO = "radio",
+  /**
+   * User's custom rendered field
+   * (only applicable to Form Component)
+   */
   CUSTOM = "custom",
 }
 
@@ -91,14 +124,6 @@ export abstract class FieldSettings {
    */
   value?: FieldValueType;
   /**
-   * If true, validate field on change
-   */
-  validateOnChange?: boolean = false;
-  /**
-   * If true, validate field on blur. Default assigned to reverse value of validateOnChange
-   */
-  validateOnBlur?: boolean;
-  /**
    * If true, the field is required for validation. Can be a predicate with formData as parameter in case of conditional validation based on other field
    */
   isRequired?: boolean | ((formData?: FormData) => boolean) = false;
@@ -110,6 +135,10 @@ export abstract class FieldSettings {
    * Validation error messages
    */
   errorMessages?: FieldErrorMessages;
+  /**
+   * If true, validate field on change, otherwise validate on blur by default
+   */
+  validateOnChange?: boolean = false;
 
   //#endregion --- Common settings for Form API and Form Component
 
@@ -144,7 +173,6 @@ export abstract class FieldSettings {
    * (only applicable to Form Component)
    */
   props?: Record<string, any>;
-
   /**
    * Field render method applicable to "custom" type
    * (only applicable to Form Component)
@@ -218,9 +246,6 @@ export class Field extends FieldSettings {
    * PRIVATE: set default validations
    */
   private setDefaultValidations(): void {
-    // By default, only one of the 2 trigger type
-    this.validateOnBlur = !this.validateOnChange;
-
     // Init customValidations with empty array
     if (!Array.isArray(this.customValidations)) {
       this.customValidations = [];
@@ -228,8 +253,9 @@ export class Field extends FieldSettings {
 
     switch (this.type) {
       case FieldTypeEnum.EMAIL:
-        // Auto add a default email validation
-        //this.type = "text";
+        // --- Auto add a default email validation
+        // Keep HTML email type for some browser default validation
+        // this.type = "text";
         this.customValidations.push({
           validate: (value: FieldValueType) => {
             const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -241,7 +267,7 @@ export class Field extends FieldSettings {
         });
         break;
       case FieldTypeEnum.PHONE:
-        // Auto add a default phone validation
+        // --- Auto add a default phone validation
         this.type = "text";
         this.customValidations.push({
           validate: (value: FieldValueType) => {

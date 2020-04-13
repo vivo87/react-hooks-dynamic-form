@@ -1,6 +1,6 @@
 # React hooks dynamic form library
 
-A simple but powerful library for managing form states, either by using the custom React hooks API for managing your own form, or using the library's auto generated Form component (work in progress).
+A simple but powerful library for managing form states, either by using the custom React hooks API for managing your own form, or using the library's auto generated Form Component (work in progress).
 
 # Getting Started
 
@@ -48,11 +48,10 @@ const FORM_FIELDS = [
 | name              | string              | HTML name attribute, also used as field identifier in the form, must be unique                                                                      |                                                                                                                                  |
 | type              | string              | Field type that will be use for adding default validation rule and render method when using Form component. See FieldTypeEnum for available option  | `"text"`                                                                                                                         |
 | value             | any                 | Initial field value                                                                                                                                 |                                                                                                                                  |
-| validateOnChange  | boolean             | If true, validate field on change                                                                                                                   | `false`                                                                                                                          |
-| validateOnBlur    | boolean             | If true, validate field on blur. Default assigned to reverse value of `validateOnChange`                                                            | `true`                                                                                                                           |
 | isRequired        | boolean \| function | If true, the field is required for validation. Can be a predicate with formData as parameter in case of conditional validation based on other field | `false`                                                                                                                          |
 | customValidations | Array               | Array of custom validations methods `{ validate: (value, formData) => boolean, errorMessage: string }`                                              | `[]`                                                                                                                             |
 | errorMessages     | Object              | Validation error messages. Please note, "email" and "phone" are only applicable to related type                                                     | `{ isRequired: "This field is required", email: "Invalid email", phone: "Invalid phone number", default: "Invalid field value"}` |
+| validateOnChange  | boolean             | If true, validate field on change                                                                                                                   | `false`                                                                                                                          |
 
 #### _--- Settings only applicable to Form Component_
 
@@ -70,7 +69,7 @@ We can provide a default common settings for all fields.
 
 ```javascript
 const DEFAULT_SETTINGS = {
-  validateOnBlur: true,
+  validateOnChange: true,
   errorMessages: { isRequired: "A custom message for required field" },
 };
 ```

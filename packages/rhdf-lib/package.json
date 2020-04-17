@@ -4,8 +4,12 @@
   "description": "Dynamic form with react hooks",
   "keywords": [
     "react",
+    "typescript",
     "hooks",
-    "form"
+    "react-hooks",
+    "form",
+    "form-validation",
+    "form-generation"
   ],
   "author": "vivo87 <vongocviet@gmail.com>",
   "homepage": "https://github.com/vivo87/react-hooks-dynamic-form",

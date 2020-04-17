@@ -1,5 +1,7 @@
 # React hooks dynamic form library
 
+![Downloads](https://img.shields.io/npm/dw/react-hooks-dynamic-form) ![Milestones](https://img.shields.io/github/milestones/all/vivo87/react-hooks-dynamic-form) ![Latest tag](https://img.shields.io/github/v/tag/vivo87/react-hooks-dynamic-form?color=yellow) ![License](https://img.shields.io/npm/l/react-hooks-dynamic-form?color=red) ![Peer React](https://img.shields.io/npm/dependency-version/react-hooks-dynamic-form/peer/react?color=violet&logo=React)
+
 A simple but powerful library for managing form states, either by using the custom React hooks API for managing your own form, or using the library's auto generated Form Component (work in progress).
 
 # Getting Started

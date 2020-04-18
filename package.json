@@ -28,9 +28,9 @@
     "typescript": "^3.7.2"
   },
   "scripts": {
-    "install": "lerna bootstrap && lerna run install:peer",
+    "install": "lerna bootstrap",
     "postinstall": "npm link ./packages/rhdf-demo/node_modules/react",
-    "build": "lerna run prepare && lerna run build-storybook",
+    "build": "lerna run build",
     "start": "lerna run prepare && lerna run start --parallel",
     "lint": "eslint --fix --ext=jsx,ts,tsx --rule 'react-hooks/exhaustive-deps: off' packages/rhdf*/src"
   },

@@ -29,14 +29,23 @@ const FORM_FIELDS = [
   {
     type: "phone",
     name: "phone",
-    label: "Phone number",
-    placeholder: "Your Phone",
     isRequired: true,
     validateOnChange: true,
     errorMessages: {
       isRequired: "I NEED THIS PHONE NUMBER !",
       phone: "I WANT A BETTER NUMBER !",
     },
+  },
+  {
+    type: "number",
+    name: "age",
+    isRequired: true,
+    customValidations: [
+      {
+        validate: (value, formData) => !Number.isNaN(value) && value >= 18,
+        errorMessage: "You must be over 18 !",
+      },
+    ],
   },
 ];
 ```
@@ -72,7 +81,10 @@ We can provide a default common settings for all fields.
 ```javascript
 const DEFAULT_SETTINGS = {
   validateOnChange: true,
-  errorMessages: { isRequired: "A custom message for required field" },
+  errorMessages: {
+    isRequired: "A custom message for required field",
+    default: "A custom message for incorrect input",
+  },
 };
 ```
 

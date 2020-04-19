@@ -1,0 +1,40 @@
+import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
+import Form from "./Form";
+
+<Meta title="Common/Basic" component={Form} />
+
+Check out all possible settings _markdown_!
+
+# Basic Settings
+
+<Preview>
+  <Story name="Basic settings">
+    <Form
+      fields={[
+        {
+          name: "field-1",
+          type: "text",
+          label: "ID",
+          value: "John Doe",
+        },
+        {
+          name: "field-2",
+          type: "password",
+          label: "Password",
+        },
+      ]}
+    />
+  </Story>
+</Preview>
+
+<!-- # Example 2
+
+<Preview>
+  <Story name="Example 2">
+    <Form remoteData={{ login: "Jane", phone: "01-02-03-04-05" }} />
+  </Story>
+</Preview> -->
+
+# Props
+
+<Props of={Form} />

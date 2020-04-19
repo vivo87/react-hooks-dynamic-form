@@ -1,0 +1,63 @@
+import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
+import Form from "./Form";
+
+<Meta title="Common/isRequired" component={Form} />
+
+# isRequired
+
+<br />
+
+## As Boolean
+
+<Preview>
+  <Story name="Boolean">
+    <Form
+      fields={[
+        {
+          type: "text",
+          name: "field-1",
+          label: "Not Required",
+        },
+        {
+          type: "text",
+          name: "field-2",
+          label: "Required",
+          isRequired: true,
+        },
+      ]}
+      defaultSettings={{
+        validateOnChange: true,
+      }}
+    />
+  </Story>
+</Preview>
+
+## As Predicate
+
+<Preview>
+  <Story name="Predicate">
+    <Form
+      fields={[
+        {
+          type: "text",
+          name: "address",
+          label: "Address",
+        },
+        {
+          type: "text",
+          name: "city",
+          label: "City",
+          placeholder: "Required if address filled",
+          isRequired: formData => !!formData.address.value,
+        },
+      ]}
+      defaultSettings={{
+        validateOnChange: true,
+      }}
+    />
+  </Story>
+</Preview>
+
+# Props
+
+<Props of={Form} />

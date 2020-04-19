@@ -24,6 +24,7 @@
     "url": "git+https://github.com/vivo87/react-hooks-dynamic-form.git"
   },
   "scripts": {
+    "install:peer": "npm link ../rhdf-demo/node_modules/react && npm link ../rhdf-demo/node_modules/react-dom",
     "start": "concurrently \"tsc -p tsconfig.dev.json\" \"echo 'any other compiler (css ...)'\"",
     "build": "tsc -p tsconfig.build.json",
     "clean": "rm -rf ./cache ./dist",
@@ -43,8 +44,6 @@
     "@types/react-dom": "^16.9.4",
     "concurrently": "^5.0.0",
     "jest": "^24.9.0",
-    "react": "link:../rhdf-demo/node_modules/react",
-    "react-dom": "link:../rhdf-demo/node_modules/react-dom",
     "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
   },

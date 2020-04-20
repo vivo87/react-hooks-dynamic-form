@@ -9,6 +9,8 @@ import Form from "./Form";
 
 ## As Boolean
 
+`isRequired` can be a simple Boolean
+
 <Preview>
   <Story name="Boolean">
     <Form
@@ -35,6 +37,8 @@ import Form from "./Form";
 
 ## As Predicate
 
+`isRequired` can be a predicate with formData as parameter in case of conditional validation based on other field
+
 <Preview>
   <Story name="Predicate">
     <Form
@@ -49,7 +53,7 @@ import Form from "./Form";
           name: "city",
           label: "City",
           placeholder: "Required if address filled",
-          isRequired: formValues => !!formValues.address,
+          isRequired: formData => !!formData.address.value,
         },
       ]}
       defaultSettings={{

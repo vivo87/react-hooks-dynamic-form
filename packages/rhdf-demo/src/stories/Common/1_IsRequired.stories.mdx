@@ -22,6 +22,7 @@ import Form from "./Form";
           type: "text",
           name: "field-2",
           label: "Required",
+          placeholder: "Input and see what happens",
           isRequired: true,
         },
       ]}
@@ -48,7 +49,7 @@ import Form from "./Form";
           name: "city",
           label: "City",
           placeholder: "Required if address filled",
-          isRequired: formData => !!formData.address.value,
+          isRequired: formValues => !!formValues.address,
         },
       ]}
       defaultSettings={{

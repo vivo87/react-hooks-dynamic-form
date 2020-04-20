@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { Field, FieldValueType, FieldSettings } from "./field";
 import { generateFormData, updateFormField, validateField, validateForm } from "./utils";
@@ -82,12 +82,17 @@ export const useFormApi = (
     [formData]
   );
 
-  const values: FormValues = fields.reduce(
-    (acc, { name }) => ({
-      ...acc,
-      ...(formData && name && formData[name] ? { [name]: formData[name].value } : {}),
-    }),
-    {}
+  const values: FormValues = useMemo(
+    () =>
+      fields.reduce(
+        (acc, { name }) => ({
+          ...acc,
+          ...(formData && name && formData[name] ? { [name]: formData[name].value } : {}),
+        }),
+        {}
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [formData]
   );
 
   return {

@@ -295,8 +295,6 @@ export class Field extends FieldSettings {
 
   /**
    * Return error message if field is error and not pristine
-   * @param {object} field field object
-   * @returns {boolean}
    */
   public getInputError = (): string | null => (!this._isPristine ? this._error : null);
 
@@ -305,6 +303,8 @@ export class Field extends FieldSettings {
    * @param formData current form data object
    */
   public validate(formData?: FormData): boolean {
+    this._error = null;
+
     if (this.isRequired) {
       const _isRequired: boolean =
         typeof this.isRequired === "function" ? this.isRequired(formData) : this.isRequired;

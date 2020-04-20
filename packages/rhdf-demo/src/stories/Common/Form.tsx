@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import classNamesDedupe from "classnames/dedupe";
 
 import { useFormApi } from "react-hooks-dynamic-form";
 import { FormValues } from "react-hooks-dynamic-form/dist/api/form";
@@ -30,7 +31,9 @@ const Form: FC<Props> = ({ fields, defaultSettings, remoteValues }: Props) => {
           <label>{label || `Field ${index + 1}`}</label>
           <input
             name={name}
-            className="field__input"
+            className={classNamesDedupe("field__input", {
+              "field__input--error": !!getFieldInputError(name),
+            })}
             placeholder={placeholder}
             type={AVAILABLE_TYPES.includes(type || "") ? type : "text"}
             value={values[name] as string}

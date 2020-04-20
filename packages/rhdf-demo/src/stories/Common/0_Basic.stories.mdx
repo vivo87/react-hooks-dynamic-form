@@ -1,28 +1,33 @@
 import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
 import Form from "./Form";
 
-<Meta title="Common/Basic" component={Form} />
+<Meta title="Common/Basic Settings" component={Form} />
 
 Check out all possible settings _markdown_!
 
 # Basic Settings
 
 <Preview>
-  <Story name="Basic settings">
+  <Story name="Build-in type">
     <Form
       fields={[
         {
           name: "field-1",
-          type: "text",
-          label: "ID",
-          value: "John Doe",
+          type: "email",
+          label: "Email type auto validated",
+          placeholder: "Input and see what happens",
         },
         {
-          name: "field-2",
-          type: "password",
-          label: "Password",
+          name: "phone",
+          type: "phone",
+          isRequired: true,
+          placeholder: "Input and see what happens",
+          label: "Phone type auto validated",
         },
       ]}
+      defaultSettings={{
+        validateOnChange: true,
+      }}
     />
   </Story>
 </Preview>

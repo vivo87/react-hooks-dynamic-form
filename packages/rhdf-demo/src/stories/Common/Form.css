@@ -8,6 +8,10 @@
   min-height: 1.25rem;
   margin-top: 5px;
 }
+.field__input--error {
+  border-color: red;
+  outline-color: red;
+}
 .field__helper {
   color: red;
   margin-top: 5px;

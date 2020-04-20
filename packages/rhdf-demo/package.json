@@ -4,14 +4,16 @@
   "private": true,
   "description": "React Hooks Dynamic Form - Demo with CRA & Storybook",
   "dependencies": {
+    "@types/classnames": "^2.2.10",
     "@types/jest": "24.0.23",
     "@types/node": "12.12.8",
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.4",
+    "classnames": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-hooks-dynamic-form": "link:../rhdf-lib",
+    "react-hooks-dynamic-form": "LERNA_LOCAL_SYMLINK",
     "react-scripts": "3.2.0",
     "typescript": "3.7.2"
   },

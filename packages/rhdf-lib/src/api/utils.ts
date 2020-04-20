@@ -79,6 +79,7 @@ export const updateFormField = (
  * Validate field, update field state (pristine, error)
  * @param fieldName field name
  * @param formData current form data object
+ * @returns updated formData
  */
 export const validateField = (formData: FormData, fieldName: string): FormData => {
   formData[fieldName].validate(formData);

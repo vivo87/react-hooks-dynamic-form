@@ -186,7 +186,7 @@ export abstract class FieldSettings {
   children?: Field[];
 
   /**
-   * If true, validate field on blur. Applicable to build-in text type (resulting in HTML input or textarea). Default assigned to reverse value of validateOnChange
+   * If true, validate field on blur. Applicable to build-in text type (resulting in HTML input or textarea)
    * (only applicable to Form Component)
    */
   validateOnBlur?: boolean;

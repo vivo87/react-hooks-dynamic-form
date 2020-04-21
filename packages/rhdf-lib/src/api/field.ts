@@ -64,9 +64,9 @@ export type FieldValueType =
 /**
  * [TYPE] Custom validation rule
  */
-export type FieldCustomValidationType = {
+export type FieldCustomValidatorType = {
   /**
-   * Check if field value is valid, a predicate with formData as parameter in case of conditional validation based on other field
+   * Validation method - a predicate with formData as parameter in case of conditional validation based on other field
    */
   validate: (value: FieldValueType, formData?: FormData) => boolean;
   /**
@@ -128,9 +128,9 @@ export abstract class FieldSettings {
    */
   isRequired?: boolean | ((formData?: FormData) => boolean) = false;
   /**
-   * Custom validations methods
+   * Custom validation rules
    */
-  customValidations?: FieldCustomValidationType[] = [];
+  customValidators?: FieldCustomValidatorType[] = [];
   /**
    * Validation error messages
    */
@@ -246,9 +246,9 @@ export class Field extends FieldSettings {
    * PRIVATE: set default validations
    */
   private setDefaultValidations(): void {
-    // Init customValidations with empty array
-    if (!Array.isArray(this.customValidations)) {
-      this.customValidations = [];
+    // Init customValidators with empty array
+    if (!Array.isArray(this.customValidators)) {
+      this.customValidators = [];
     }
 
     switch (this.type) {
@@ -256,7 +256,7 @@ export class Field extends FieldSettings {
         // --- Auto add a default email validation
         // Keep HTML email type for some browser default validation
         // this.type = "text";
-        this.customValidations.push({
+        this.customValidators.push({
           validate: (value: FieldValueType) => {
             const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return (
@@ -269,7 +269,7 @@ export class Field extends FieldSettings {
       case FieldTypeEnum.PHONE:
         // --- Auto add a default phone validation
         this.type = "text";
-        this.customValidations.push({
+        this.customValidators.push({
           validate: (value: FieldValueType) => {
             const regex = /^(\d)(?:[ _.-]?(\d))+$/;
             return (
@@ -303,24 +303,29 @@ export class Field extends FieldSettings {
    * @param formData current form data object
    */
   public validate(formData?: FormData): boolean {
+    // Reset error
     this._error = null;
+
+    // When field is validated, even not yet modified, it's considered not pristine to show error if there is any
+    this._isPristine = false;
+
+    // 0 is a valid value :P
+    const hasValue = !(
+      typeof this.value === "undefined" ||
+      this.value === null ||
+      this.value === "" ||
+      this.value === false
+    );
 
     if (this.isRequired) {
       const _isRequired: boolean =
         typeof this.isRequired === "function" ? this.isRequired(formData) : this.isRequired;
-
-      this._error =
-        _isRequired &&
-        (typeof this.value === "undefined" ||
-          this.value === null ||
-          this.value === "" ||
-          this.value === false)
-          ? this.getErrorMessage("isRequired")
-          : null;
+      this._error = _isRequired && !hasValue ? this.getErrorMessage("isRequired") : null;
     }
 
-    if (!this._error && Array.isArray(this.customValidations)) {
-      const validationFailed = this.customValidations.find(
+    // isRequired passed, check next rules if field has a value
+    if (!this._error && hasValue && Array.isArray(this.customValidators)) {
+      const validationFailed = this.customValidators.find(
         validation => !validation.validate(this.value, formData)
       );
       this._error = validationFailed

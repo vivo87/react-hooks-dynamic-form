@@ -1,0 +1,121 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import Form from "./Form";
+
+<Meta title="Common/Validation" component={Form} />
+
+# Built-in types
+
+`email` and `phone` has default validations
+
+<Preview>
+  <Story name="Build-in type">
+    <Form
+      fields={[
+        {
+          name: "field-1",
+          type: "email",
+          label: "Email type auto validated",
+          placeholder: "Input and see what happens",
+        },
+        {
+          name: "phone",
+          type: "phone",
+          isRequired: true,
+          placeholder: "Input and see what happens",
+          label: "Phone type auto validated",
+        },
+      ]}
+      defaultSettings={{
+        validateOnChange: true,
+      }}
+    />
+  </Story>
+</Preview>
+
+# isRequired
+
+`isRequired` indicates that the field must have a value
+
+## isRequired as Boolean
+
+`isRequired` can be a simple Boolean
+
+<Preview>
+  <Story name="isRequired Boolean">
+    <Form
+      fields={[
+        {
+          type: "text",
+          name: "field-1",
+          label: "Not Required",
+          placeholder: "Nothing will happen whatever input",
+        },
+        {
+          type: "text",
+          name: "field-2",
+          label: "Required",
+          placeholder: "Input anything, remove and see what happens",
+          isRequired: true,
+        },
+      ]}
+      defaultSettings={{
+        validateOnChange: true,
+      }}
+    />
+  </Story>
+</Preview>
+
+## isRequired As Predicate
+
+`isRequired` can be a predicate with formData as parameter in case of conditional validation based on other field
+
+<Preview>
+  <Story name="isRequired Predicate">
+    <Form
+      fields={[
+        {
+          type: "text",
+          name: "address",
+          label: "Address",
+          placeholder: "will be use to validate city",
+        },
+        {
+          type: "text",
+          name: "city",
+          label: "City",
+          placeholder: "Required if address assigned",
+          isRequired: formData => !!formData.address.value,
+        },
+      ]}
+      defaultSettings={{
+        validateOnChange: true,
+      }}
+    />
+  </Story>
+</Preview>
+
+# customValidators
+
+`customValidators` is an array of validation rules, each rule has a `validate` predicate and an `errorMessage`
+
+<Preview>
+  <Story name="Custom Validators">
+    <Form
+      fields={[
+        {
+          type: "number",
+          name: "age",
+          label: "Age",
+          placeholder: "is not required, but must be over 18 if field is assigned",
+          validateOnChange: true,
+          customValidators: [
+            {
+              validate: (value, formData) => !Number.isNaN(value) && value >= 18,
+              errorMessage: "You must be over 18 !",
+            },
+          ],
+        },
+      ]}
+    />
+  </Story>
+</Preview>

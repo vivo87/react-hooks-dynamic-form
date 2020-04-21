@@ -1,5 +1,7 @@
-.field {
+.form {
   padding: 0 1rem;
+}
+.field {
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
@@ -15,4 +17,8 @@
 .field__helper {
   color: red;
   margin-top: 5px;
+}
+.form__actions {
+  display: flex;
+  justify-content: space-between;
 }

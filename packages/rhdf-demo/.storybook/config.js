@@ -1,4 +1,11 @@
 import { configure } from "@storybook/react";
+import { configureActions } from '@storybook/addon-actions';
+
+configureActions({
+  depth: 1,
+  // Limit the number of items logged into the actions panel
+  limit: 10,
+});
 
 /**
  * Addon-info is being replaced by addon-docs docsPage

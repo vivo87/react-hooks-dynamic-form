@@ -40,7 +40,7 @@ const FORM_FIELDS = [
     type: "number",
     name: "age",
     isRequired: true,
-    customValidations: [
+    customValidators: [
       {
         validate: (value, formData) => !Number.isNaN(value) && value >= 18,
         errorMessage: "You must be over 18 !",
@@ -54,15 +54,15 @@ const FORM_FIELDS = [
 
 #### _--- Common settings for Form API and Form Component_
 
-| Property          | Type                | Description                                                                                                                                         | Default                                                                                                                          |
-| ----------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| name              | string              | HTML name attribute, also used as field identifier in the form, must be unique                                                                      |                                                                                                                                  |
-| type              | string              | Field type that will be use for adding default validation rule and render method when using Form component. See FieldTypeEnum for available option  | `"text"`                                                                                                                         |
-| value             | any                 | Initial field value                                                                                                                                 |                                                                                                                                  |
-| isRequired        | boolean \| function | If true, the field is required for validation. Can be a predicate with formData as parameter in case of conditional validation based on other field | `false`                                                                                                                          |
-| customValidations | Array               | Array of custom validations methods `{ validate: (value, formData) => boolean, errorMessage: string }`                                              | `[]`                                                                                                                             |
-| errorMessages     | Object              | Validation error messages. Please note, "email" and "phone" are only applicable to related type                                                     | `{ isRequired: "This field is required", email: "Invalid email", phone: "Invalid phone number", default: "Invalid field value"}` |
-| validateOnChange  | boolean             | If true, validate field on change                                                                                                                   | `false`                                                                                                                          |
+| Property         | Type                | Description                                                                                                                                         | Default                                                                                                                          |
+| ---------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| name             | string              | HTML name attribute, also used as field identifier in the form, must be unique                                                                      |                                                                                                                                  |
+| type             | string              | Field type that will be use for adding default validation rule and render method when using Form component. See FieldTypeEnum for available option  | `"text"`                                                                                                                         |
+| value            | any                 | Initial field value                                                                                                                                 |                                                                                                                                  |
+| isRequired       | boolean \| function | If true, the field is required for validation. Can be a predicate with formData as parameter in case of conditional validation based on other field | `false`                                                                                                                          |
+| customValidators | Array               | Array of custom validation rules `{ validate: (value, formData) => boolean, errorMessage: string }`                                                 | `[]`                                                                                                                             |
+| errorMessages    | Object              | Validation error messages. Please note, "email" and "phone" are only applicable to related type                                                     | `{ isRequired: "This field is required", email: "Invalid email", phone: "Invalid phone number", default: "Invalid field value"}` |
+| validateOnChange | boolean             | If true, validate field on change                                                                                                                   | `false`                                                                                                                          |
 
 #### _--- Settings only applicable to Form Component_
 

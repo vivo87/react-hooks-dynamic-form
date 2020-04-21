@@ -3,46 +3,32 @@ import Form from "./Form";
 
 <Meta title="Common/Basic Settings" component={Form} />
 
-# Basic settings
+# Default settings
 
-<br />
+We can provide a default common settings for all fields.
 
-## Built-in types
-
-`email` and `phone` has default validations added
+> Please note, these settings will be merged and eventually overridden by each specific field definition.
 
 <Preview>
-  <Story name="Build-in type">
+  <Story name="Default settings">
     <Form
       fields={[
         {
           name: "field-1",
-          type: "email",
-          label: "Email type auto validated",
-          placeholder: "Input and see what happens",
+          type: "text",
         },
         {
-          name: "phone",
-          type: "phone",
-          isRequired: true,
-          placeholder: "Input and see what happens",
-          label: "Phone type auto validated",
+          name: "field-1",
+          type: "text",
         },
       ]}
       defaultSettings={{
+        value: "A common intial value for everyone",
         validateOnChange: true,
       }}
     />
   </Story>
 </Preview>
-
-<!-- # Example 2
-
-<Preview>
-  <Story name="Example 2">
-    <Form remoteData={{ login: "Jane", phone: "01-02-03-04-05" }} />
-  </Story>
-</Preview> -->
 
 # Props
 

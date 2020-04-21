@@ -185,21 +185,29 @@ export abstract class FieldSettings {
    */
   children?: Field[];
 
+  /**
+   * If true, validate field on blur. Applicable to build-in text type (resulting in HTML input or textarea). Default assigned to reverse value of validateOnChange
+   * (only applicable to Form Component)
+   */
+  validateOnBlur?: boolean;
+
   //#endregion --- Settings only applicable to Form Component
 }
 
 export class Field extends FieldSettings {
-  //#region --- Form State Fields
-  protected _isPristine = true;
-  protected _error: string | null = null;
-  //#endregion --- Form State Fields
+  //#region --- Private State
+
+  private _error: string | null = null;
+  private _isPristine = true; // Not sure yet for a use case
+
+  //#endregion --- Private State
 
   public constructor(init?: FieldSettings) {
     super();
 
     Object.assign(this, init, {
-      _isPristine: true,
       _error: null,
+      _isPristine: true,
     });
 
     // Default type text
@@ -246,6 +254,11 @@ export class Field extends FieldSettings {
    * PRIVATE: set default validations
    */
   private setDefaultValidations(): void {
+    // [Optimization]: avoid unnecessary trigger
+    if (this.validateOnChange && this.validateOnBlur) {
+      this.validateOnBlur = false;
+    }
+
     // Init customValidators with empty array
     if (!Array.isArray(this.customValidators)) {
       this.customValidators = [];
@@ -289,14 +302,16 @@ export class Field extends FieldSettings {
    * @param newValue input value
    */
   public setInputValue(newValue: FieldValueType): void {
+    // Temporarily reset error till next validation
+    this._error = null;
     this.value = newValue;
     this._isPristine = false;
   }
 
   /**
-   * Return error message if field is error and not pristine
+   * Return error message if field is error after validation
    */
-  public getInputError = (): string | null => (!this._isPristine ? this._error : null);
+  public getInputError = (): string | null => this._error;
 
   /**
    * Validate field
@@ -305,9 +320,6 @@ export class Field extends FieldSettings {
   public validate(formData?: FormData): boolean {
     // Reset error
     this._error = null;
-
-    // When field is validated, even not yet modified, it's considered not pristine to show error if there is any
-    this._isPristine = false;
 
     // 0 is a valid value :P
     const hasValue = !(

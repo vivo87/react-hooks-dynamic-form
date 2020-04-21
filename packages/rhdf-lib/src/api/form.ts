@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { Field, FieldValueType, FieldSettings } from "./field";
-import { generateFormData, updateFormField, validateField, validateForm } from "./utils";
+import { generateFormData, updateFormField, validateField, validateForm } from "./handlers";
 
 /**
  * Form data with fields map

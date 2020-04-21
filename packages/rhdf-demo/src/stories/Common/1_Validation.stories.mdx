@@ -15,19 +15,17 @@ import Form from "./Form";
           name: "field-1",
           type: "email",
           label: "Email type auto validated",
-          placeholder: "Input and see what happens",
+          placeholder: "Input and see what happens on blur",
         },
         {
           name: "phone",
           type: "phone",
           isRequired: true,
-          placeholder: "Input and see what happens",
+          validateOnChange: true,
+          placeholder: "Input and see what happens on change",
           label: "Phone type auto validated",
         },
       ]}
-      defaultSettings={{
-        validateOnChange: true,
-      }}
     />
   </Story>
 </Preview>
@@ -54,7 +52,7 @@ import Form from "./Form";
           type: "text",
           name: "field-2",
           label: "Required",
-          placeholder: "Input anything, remove and see what happens",
+          placeholder: "Click Validate and see what happens",
           isRequired: true,
         },
       ]}

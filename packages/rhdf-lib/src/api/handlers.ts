@@ -96,7 +96,7 @@ export const validateField = (formData: FormData, fieldName: string): FormData =
 export const validateForm = (formData: FormData): ValidationResult<FormData> => {
   let isValid = true;
   for (const field of Object.values(formData)) {
-    isValid = isValid && field.validate(formData);
+    isValid = field.validate(formData) && isValid;
   }
   return {
     isValid,

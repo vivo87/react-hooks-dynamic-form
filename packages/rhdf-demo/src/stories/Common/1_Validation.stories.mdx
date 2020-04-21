@@ -18,14 +18,16 @@ import Form from "./Form";
           placeholder: "Input and see what happens on blur",
         },
         {
-          name: "phone",
+          name: "field-2",
           type: "phone",
-          isRequired: true,
           validateOnChange: true,
           placeholder: "Input and see what happens on change",
           label: "Phone type auto validated",
         },
       ]}
+      defaultSettings={{
+        isRequired: true,
+      }}
     />
   </Story>
 </Preview>

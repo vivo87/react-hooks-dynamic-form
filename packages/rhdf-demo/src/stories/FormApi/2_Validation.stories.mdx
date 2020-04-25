@@ -1,7 +1,7 @@
 import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
-import Form from "./Form";
+import CustomFormUsingFormAPI from "./Form";
 
-<Meta title="Common/Validation" component={Form} />
+<Meta title="Form API/Validation" component={CustomFormUsingFormAPI} />
 
 # Built-in types
 
@@ -9,11 +9,12 @@ import Form from "./Form";
 
 <Preview>
   <Story name="Build-in type">
-    <Form
+    <CustomFormUsingFormAPI
       fields={[
         {
           name: "field-1",
           type: "email",
+          // --- Following settings only for render purpose
           label: "Email type auto validated",
           placeholder: "Input and see what happens on blur",
         },
@@ -21,8 +22,9 @@ import Form from "./Form";
           name: "field-2",
           type: "phone",
           validateOnChange: true,
-          placeholder: "Input and see what happens on change",
+          // --- Following settings only for render purpose
           label: "Phone type auto validated",
+          placeholder: "Input and see what happens on change",
         },
       ]}
       defaultSettings={{
@@ -42,20 +44,22 @@ import Form from "./Form";
 
 <Preview>
   <Story name="isRequired Boolean">
-    <Form
+    <CustomFormUsingFormAPI
       fields={[
         {
           type: "text",
           name: "field-1",
+          // --- Following settings only for render purpose
           label: "Not Required",
           placeholder: "Nothing will happen whatever input",
         },
         {
           type: "text",
           name: "field-2",
+          isRequired: true,
+          // --- Following settings only for render purpose
           label: "Required",
           placeholder: "Click Validate and see what happens",
-          isRequired: true,
         },
       ]}
       defaultSettings={{
@@ -71,20 +75,22 @@ import Form from "./Form";
 
 <Preview>
   <Story name="isRequired Predicate">
-    <Form
+    <CustomFormUsingFormAPI
       fields={[
         {
           type: "text",
           name: "address",
+          // --- Following settings only for render purpose
           label: "Address",
           placeholder: "will be use to validate city",
         },
         {
           type: "text",
           name: "city",
+          isRequired: formData => !!formData.address.value,
+          // --- Following settings only for render purpose
           label: "City",
           placeholder: "Required if address assigned",
-          isRequired: formData => !!formData.address.value,
         },
       ]}
       defaultSettings={{
@@ -100,13 +106,11 @@ import Form from "./Form";
 
 <Preview>
   <Story name="Custom Validators">
-    <Form
+    <CustomFormUsingFormAPI
       fields={[
         {
           type: "number",
           name: "age",
-          label: "Age",
-          placeholder: "is not required, but must be over 18 if field is assigned",
           validateOnChange: true,
           customValidators: [
             {
@@ -114,6 +118,9 @@ import Form from "./Form";
               errorMessage: "You must be over 18 !",
             },
           ],
+          // --- Following settings only for render purpose
+          label: "Age",
+          placeholder: "is not required, but must be over 18 if field is assigned",
         },
       ]}
     />

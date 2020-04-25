@@ -46,4 +46,7 @@ configureActions({
 // );
 
 // automatically import all files ending in mdx tsx
-configure(require.context("../src/stories", true, /\.stories\.(mdx|[tj]sx?)$/), module);
+configure([
+  require.context("../src/stories", false, /Intro\.stories\.(mdx|[tj]sx?)$/),
+  require.context("../src/stories", true, /\.stories\.(mdx|[tj]sx?)$/)
+], module);

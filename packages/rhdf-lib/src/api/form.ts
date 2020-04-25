@@ -74,7 +74,6 @@ export const useFormApi = (
   const handleFormValidate = useCallback(() => {
     const { isValid, updatedData } = validateForm(formData as FormData);
     setFormData(updatedData);
-    console.log(updatedData);
     return isValid;
   }, [formData]);
 

@@ -1,5 +1,10 @@
 .form {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   padding: 0 1rem;
+}
+.form__help {
+  font-size: 0.8em;
+  margin-bottom: 1rem;
 }
 .field {
   margin-bottom: 1rem;

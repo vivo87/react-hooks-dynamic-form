@@ -284,7 +284,7 @@ export class Field extends FieldSettings {
         this.type = "text";
         this.customValidators.push({
           validate: (value: FieldValueType) => {
-            const regex = /^(\d)(?:[ _.-]?(\d))+$/;
+            const regex = /^(\+)?(\d)(?:[ _.-]?(\d))+$/;
             return (
               (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
             );

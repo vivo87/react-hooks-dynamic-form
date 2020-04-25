@@ -31,6 +31,15 @@ const Form: FC<Props> = ({ fields, defaultSettings, remoteValues }: Props) => {
   } = useFormApi(fields, defaultSettings, remoteValues);
   return isInit ? (
     <div className="form">
+      <div className="form__help">
+        <span role="img" aria-label="point-up">
+          👆👆👆
+        </span>{" "}
+        <i>Navigate to Docs tab to see the full documentations</i>{" "}
+        <span role="img" aria-label="point-up">
+          👆👆👆
+        </span>
+      </div>
       {fields.map((fieldSettings, index) => {
         const { name, type, label, validateOnChange, placeholder } = {
           ...defaultSettings,

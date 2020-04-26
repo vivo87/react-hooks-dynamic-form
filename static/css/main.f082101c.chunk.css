@@ -26,10 +26,10 @@
   color: red;
   margin-top: 5px;
 }
-.form__actions {
-  display: flex;
-  justify-content: space-between;
+.form__actions button {
+  display: inline-flex;
+  margin-right: 1rem;
 }
 
 
-/*# sourceMappingURL=main.df601680.chunk.css.map*/
+/*# sourceMappingURL=main.f082101c.chunk.css.map*/

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import classNamesDedupe from "classnames/dedupe";
 import { action } from "@storybook/addon-actions";
 
@@ -20,6 +20,7 @@ const AVAILABLE_TYPES = ["text", "email", "number", "password"];
  * Custom Typescript Form with library's `useFormApi` custom hooks
  */
 const Form: FC<Props> = ({ fields, defaultSettings, remoteValues }: Props) => {
+  const [ok, setOk] = useState<boolean | null>(null);
   const {
     isInit,
     values,
@@ -55,6 +56,7 @@ const Form: FC<Props> = ({ fields, defaultSettings, remoteValues }: Props) => {
               type={AVAILABLE_TYPES.includes(type || "") ? type : "text"}
               value={values[name] as string}
               onChange={(ev): void => {
+                setOk(null);
                 setFieldValue(name, ev.target.value);
                 if (validateOnChange) {
                   action("Validate field on change")(name, ev.target.value);
@@ -76,14 +78,26 @@ const Form: FC<Props> = ({ fields, defaultSettings, remoteValues }: Props) => {
           className="validate-btn"
           onClick={() => {
             const isValid = validateForm();
+            setOk(isValid);
             action(`Validate form: isValid = ${isValid}`)();
           }}>
           Validate form
         </button>
+        {typeof ok === "boolean" && (
+          <span
+            className={classNamesDedupe("validation-result", {
+              "validation-result--ko": !ok,
+            })}>
+            ==> {ok ? "Valid" : "Invalid"}
+          </span>
+        )}
+      </div>
+      <div className="form__actions">
         <button
           className="reset-btn"
           onClick={() => {
             resetForm();
+            setOk(null);
             action(`Reset form`)();
           }}>
           Reset form

@@ -21,12 +21,33 @@ export interface FormValues {
  * Form API client interface
  */
 export interface FormApi {
+  /**
+   * indicating whether form data is initialized
+   */
   isInit: boolean;
+  /**
+   * current field values { key: value }
+   */
   values: FormValues;
+  /**
+   * update form field value
+   */
   setFieldValue: (name: string, value: FieldValueType) => void;
+  /**
+   * validate a field
+   */
   validateField: (name: string) => void;
-  validateForm: () => void;
+  /**
+   * validate all form fields
+   */
+  validateForm: () => boolean;
+  /**
+   * return field input error if there is any
+   */
   getFieldInputError: (fieldName: string) => string | null;
+  /**
+   * reset form to initial settings
+   */
   resetForm: () => void;
 }
 

@@ -26,7 +26,15 @@
   color: red;
   margin-top: 5px;
 }
-.form__actions button {
-  display: inline-flex;
-  margin-right: 1rem;
+.form__actions {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+.validation-result {
+  margin-left: 0.5rem;
+  color: green;
+}
+.validation-result--ko {
+  color: red;
 }

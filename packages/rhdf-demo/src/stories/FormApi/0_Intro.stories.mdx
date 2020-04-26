@@ -7,15 +7,36 @@ import { Meta } from "@storybook/addon-docs/blocks";
 You can use the library form API for managing your own form. Form API provide these properties:
 
 ```javascript
-return {
-  isInit, // boolean indicating whether form data is initialized
-  values, // current field values { key: value }
-  setFieldValue, // set field value function(name, value)
-  validateField, // validate a field function(name)
-  validateForm, // validate all form function()
-  getFieldInputError, // get field input error function(name)
-  resetForm, // reset form function()
-};
+interface FormApi {
+  /**
+   * indicating whether form data is initialized
+   */
+  isInit: boolean;
+  /**
+   * current field values { key: value }
+   */
+  values: FormValues;
+  /**
+   * update form field value
+   */
+  setFieldValue: (name: string, value: FieldValueType) => void;
+  /**
+   * validate a field
+   */
+  validateField: (name: string) => void;
+  /**
+   * validate all form fields
+   */
+  validateForm: () => boolean;
+  /**
+   * return field input error if there is any
+   */
+  getFieldInputError: (fieldName: string) => string | null;
+  /**
+   * reset form to initial settings
+   */
+  resetForm: () => void;
+}
 ```
 
 Form API can be used as custom React hooks:

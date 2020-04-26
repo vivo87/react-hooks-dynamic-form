@@ -2,7 +2,11 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 <Meta title="Intro" />
 
+# React hooks dynamic form library
+
 A simple but powerful library for managing form states, either by using the custom React hooks API for managing your own form, or using the library's auto generated Form Component (work in progress).
+
+<br />
 
 # Getting Started
 
@@ -54,6 +58,8 @@ const FORM_FIELDS = [
 
 > Please note, some properties are only for library's Form Component, such as className, label, render ... In case of using API on user's own custom form, only logical properties for managing state are taken into account. See list below.
 
+<br />
+
 #### _--- Common settings for Form API and Form Component_
 
 | Property                | Type                | Description                                                                                                                                         | Default                                                                                                                          |
@@ -66,6 +72,8 @@ const FORM_FIELDS = [
 | errorMessages           | Object              | Validation error messages. Please note, "email" and "phone" are only applicable to related type                                                     | `{ isRequired: "This field is required", email: "Invalid email", phone: "Invalid phone number", default: "Invalid field value"}` |
 | validateOnChange        | boolean             | If true, validate field on change                                                                                                                   | `false`                                                                                                                          |
 | disableBuiltInValidator | boolean             | If true, disable built-in validator, applicable to type with default validator (email, phone)                                                       | `false`                                                                                                                          |
+
+<br />
 
 #### _--- Settings only applicable to Form Component_
 

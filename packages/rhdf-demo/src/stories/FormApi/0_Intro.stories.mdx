@@ -8,13 +8,13 @@ You can use the library form API for managing your own form. Form API provide th
 
 ```javascript
 return {
-  isInit, // indicate whether form data is initialized
+  isInit, // boolean indicating whether form data is initialized
   values, // current field values { key: value }
   setFieldValue, // set field value function(name, value)
   validateField, // validate a field function(name)
   validateForm, // validate all form function()
   getFieldInputError, // get field input error function(name)
-  resetForm, // reset form function
+  resetForm, // reset form function()
 };
 ```
 

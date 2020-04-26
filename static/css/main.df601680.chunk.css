@@ -1,0 +1,35 @@
+.form {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  padding: 0 1rem;
+}
+.form__help {
+  font-size: 0.8em;
+  margin-bottom: 1rem;
+}
+.sbdocs-preview .form__help {
+  display: none;
+}
+.field {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.field__input {
+  min-height: 1.25rem;
+  margin-top: 5px;
+}
+.field__input--error {
+  border-color: red;
+  outline-color: red;
+}
+.field__helper {
+  color: red;
+  margin-top: 5px;
+}
+.form__actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+/*# sourceMappingURL=main.df601680.chunk.css.map*/

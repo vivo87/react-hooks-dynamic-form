@@ -1,0 +1,137 @@
+import { Meta, Story, Preview, SourceState } from "@storybook/addon-docs/blocks";
+import CustomFormUsingFormAPI from "./Form";
+
+<Meta title="Form API/Validation" component={CustomFormUsingFormAPI} />
+
+# Built-in types
+
+`email` and `phone` has default validation method. The built-in validator can be disabled when by fieldsetting `disableBuiltInValidator = true`.
+
+<Preview withSource={SourceState.OPEN}>
+  <Story name="Build-in type">
+    <CustomFormUsingFormAPI
+      fields={[
+        {
+          name: "field-1",
+          type: "email",
+          // --- Following settings only for render purpose
+          label: "Email type auto validated",
+          placeholder: "Input and see what happens on blur",
+        },
+        {
+          name: "field-2",
+          type: "phone",
+          validateOnChange: true,
+          // --- Following settings only for render purpose
+          label: "Phone type auto validated",
+          placeholder: "Input and see what happens on change",
+        },
+        {
+          name: "field-3",
+          type: "email",
+          validateOnChange: true,
+          disableBuiltInValidator: true,
+          // --- Following settings only for render purpose
+          label: "Email without built-in validator",
+          placeholder: "You can input anything it will pass",
+        },
+      ]}
+      defaultSettings={{
+        isRequired: true,
+      }}
+    />
+  </Story>
+</Preview>
+
+# isRequired
+
+`isRequired` indicates that the field must have a value
+
+## isRequired as Boolean
+
+`isRequired` can be a simple Boolean
+
+<Preview withSource={SourceState.OPEN}>
+  <Story name="isRequired Boolean">
+    <CustomFormUsingFormAPI
+      fields={[
+        {
+          type: "text",
+          name: "field-1",
+          // --- Following settings only for render purpose
+          label: "Not Required",
+          placeholder: "Nothing will happen whatever input",
+        },
+        {
+          type: "text",
+          name: "field-2",
+          isRequired: true,
+          // --- Following settings only for render purpose
+          label: "Required",
+          placeholder: "Click Validate and see what happens",
+        },
+      ]}
+      defaultSettings={{
+        validateOnChange: true,
+      }}
+    />
+  </Story>
+</Preview>
+
+## isRequired As Predicate
+
+`isRequired` can be a predicate with formData as parameter in case of conditional validation based on other field
+
+<Preview withSource={SourceState.OPEN}>
+  <Story name="isRequired Predicate">
+    <CustomFormUsingFormAPI
+      fields={[
+        {
+          type: "text",
+          name: "address",
+          // --- Following settings only for render purpose
+          label: "Address",
+          placeholder: "will be use to validate city",
+        },
+        {
+          type: "text",
+          name: "city",
+          isRequired: formData => !!formData.address.value,
+          // --- Following settings only for render purpose
+          label: "City",
+          placeholder: "Required if address assigned",
+        },
+      ]}
+      defaultSettings={{
+        validateOnChange: true,
+      }}
+    />
+  </Story>
+</Preview>
+
+# customValidators
+
+`customValidators` is an array of validation rules, each rule has a `validate` predicate and an `errorMessage`
+
+<Preview withSource={SourceState.OPEN}>
+  <Story name="Custom Validators">
+    <CustomFormUsingFormAPI
+      fields={[
+        {
+          type: "number",
+          name: "age",
+          validateOnChange: true,
+          customValidators: [
+            {
+              validate: (value, formData) => !Number.isNaN(value) && value >= 18,
+              errorMessage: "You must be over 18 !",
+            },
+          ],
+          // --- Following settings only for render purpose
+          label: "Age",
+          placeholder: "is not required, but must be over 18 if field is assigned",
+        },
+      ]}
+    />
+  </Story>
+</Preview>

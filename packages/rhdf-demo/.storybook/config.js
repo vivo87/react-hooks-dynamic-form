@@ -1,4 +1,11 @@
 import { configure } from "@storybook/react";
+import { configureActions } from '@storybook/addon-actions';
+
+configureActions({
+  depth: 1,
+  // Limit the number of items logged into the actions panel
+  limit: 10,
+});
 
 /**
  * Addon-info is being replaced by addon-docs docsPage
@@ -39,4 +46,7 @@ import { configure } from "@storybook/react";
 // );
 
 // automatically import all files ending in mdx tsx
-configure(require.context("../src", true, /\.stories\.(mdx|[tj]sx?)$/), module);
+configure([
+  require.context("../src/stories", false, /Intro\.stories\.(mdx|[tj]sx?)$/),
+  require.context("../src/stories", true, /\.stories\.(mdx|[tj]sx?)$/)
+], module);

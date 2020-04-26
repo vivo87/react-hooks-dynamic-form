@@ -64,9 +64,9 @@ export type FieldValueType =
 /**
  * [TYPE] Custom validation rule
  */
-export type FieldCustomValidationType = {
+export type FieldCustomValidatorType = {
   /**
-   * Check if field value is valid, a predicate with formData as parameter in case of conditional validation based on other field
+   * Validation method - a predicate with formData as parameter in case of conditional validation based on other field
    */
   validate: (value: FieldValueType, formData?: FormData) => boolean;
   /**
@@ -128,9 +128,9 @@ export abstract class FieldSettings {
    */
   isRequired?: boolean | ((formData?: FormData) => boolean) = false;
   /**
-   * Custom validations methods
+   * Custom validation rules
    */
-  customValidations?: FieldCustomValidationType[] = [];
+  customValidators?: FieldCustomValidatorType[] = [];
   /**
    * Validation error messages
    */
@@ -139,6 +139,10 @@ export abstract class FieldSettings {
    * If true, validate field on change, otherwise validate on blur by default
    */
   validateOnChange?: boolean = false;
+  /**
+   * If true, disable built-in validator, applicable to type with default validator (email, phone)
+   */
+  disableBuiltInValidator?: boolean = false;
 
   //#endregion --- Common settings for Form API and Form Component
 
@@ -185,21 +189,29 @@ export abstract class FieldSettings {
    */
   children?: Field[];
 
+  /**
+   * If true, validate field on blur. Applicable to build-in text type (resulting in HTML input or textarea)
+   * (only applicable to Form Component)
+   */
+  validateOnBlur?: boolean;
+
   //#endregion --- Settings only applicable to Form Component
 }
 
 export class Field extends FieldSettings {
-  //#region --- Form State Fields
-  protected _isPristine = true;
-  protected _error: string | null = null;
-  //#endregion --- Form State Fields
+  //#region --- Private State
+
+  private _error: string | null = null;
+  private _isPristine = true; // Not sure yet for a use case
+
+  //#endregion --- Private State
 
   public constructor(init?: FieldSettings) {
     super();
 
     Object.assign(this, init, {
-      _isPristine: true,
       _error: null,
+      _isPristine: true,
     });
 
     // Default type text
@@ -246,38 +258,47 @@ export class Field extends FieldSettings {
    * PRIVATE: set default validations
    */
   private setDefaultValidations(): void {
-    // Init customValidations with empty array
-    if (!Array.isArray(this.customValidations)) {
-      this.customValidations = [];
+    // [Optimization]: avoid unnecessary trigger
+    if (this.validateOnChange && this.validateOnBlur) {
+      this.validateOnBlur = false;
+    }
+
+    // Init customValidators with empty array
+    if (!Array.isArray(this.customValidators)) {
+      this.customValidators = [];
     }
 
     switch (this.type) {
       case FieldTypeEnum.EMAIL:
-        // --- Auto add a default email validation
-        // Keep HTML email type for some browser default validation
-        // this.type = "text";
-        this.customValidations.push({
-          validate: (value: FieldValueType) => {
-            const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return (
-              (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
-            );
-          },
-          errorMessage: this.getErrorMessage("email"),
-        });
+        if (!this.disableBuiltInValidator) {
+          // --- Auto add a default email validation
+          // Keep HTML email type for some browser default validation
+          // this.type = "text";
+          this.customValidators.push({
+            validate: (value: FieldValueType) => {
+              const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+              return (
+                (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
+              );
+            },
+            errorMessage: this.getErrorMessage("email"),
+          });
+        }
         break;
       case FieldTypeEnum.PHONE:
-        // --- Auto add a default phone validation
-        this.type = "text";
-        this.customValidations.push({
-          validate: (value: FieldValueType) => {
-            const regex = /^(\d)(?:[ _.-]?(\d))+$/;
-            return (
-              (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
-            );
-          },
-          errorMessage: this.getErrorMessage("phone"),
-        });
+        if (!this.disableBuiltInValidator) {
+          // --- Auto add a default phone validation
+          this.type = "text";
+          this.customValidators.push({
+            validate: (value: FieldValueType) => {
+              const regex = /^(\+)?(\d)(?:[ _.-]?(\d))+$/;
+              return (
+                (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
+              );
+            },
+            errorMessage: this.getErrorMessage("phone"),
+          });
+        }
         break;
       default:
         break;
@@ -289,38 +310,42 @@ export class Field extends FieldSettings {
    * @param newValue input value
    */
   public setInputValue(newValue: FieldValueType): void {
+    // Temporarily reset error till next validation
+    this._error = null;
     this.value = newValue;
     this._isPristine = false;
   }
 
   /**
-   * Return error message if field is error and not pristine
-   * @param {object} field field object
-   * @returns {boolean}
+   * Return error message if field is error after validation
    */
-  public getInputError = (): string | null => (!this._isPristine ? this._error : null);
+  public getInputError = (): string | null => this._error;
 
   /**
    * Validate field
    * @param formData current form data object
    */
   public validate(formData?: FormData): boolean {
+    // Reset error
+    this._error = null;
+
+    // 0 is a valid value :P
+    const hasValue = !(
+      typeof this.value === "undefined" ||
+      this.value === null ||
+      this.value === "" ||
+      this.value === false
+    );
+
     if (this.isRequired) {
       const _isRequired: boolean =
         typeof this.isRequired === "function" ? this.isRequired(formData) : this.isRequired;
-
-      this._error =
-        _isRequired &&
-        (typeof this.value === "undefined" ||
-          this.value === null ||
-          this.value === "" ||
-          this.value === false)
-          ? this.getErrorMessage("isRequired")
-          : null;
+      this._error = _isRequired && !hasValue ? this.getErrorMessage("isRequired") : null;
     }
 
-    if (!this._error && Array.isArray(this.customValidations)) {
-      const validationFailed = this.customValidations.find(
+    // isRequired passed, check next rules if field has a value
+    if (!this._error && hasValue && Array.isArray(this.customValidators)) {
+      const validationFailed = this.customValidators.find(
         validation => !validation.validate(this.value, formData)
       );
       this._error = validationFailed

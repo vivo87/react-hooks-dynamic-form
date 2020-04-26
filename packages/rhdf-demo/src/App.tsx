@@ -1,16 +1,10 @@
 import React from "react";
-
-import JsForm from "./components/JsForm";
-import TsForm from "./components/TsForm";
-
 import "./App.css";
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <JsForm />
-      <br />
-      <TsForm remoteData={{ login: "John Doe", phone: "01-02-03-04-05" }} />
+      App bootstrap with CRA, but may be we will use storybook generated website :P
     </div>
   );
 };

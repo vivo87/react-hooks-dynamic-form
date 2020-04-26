@@ -22,7 +22,9 @@
     "build": "npm run build-storybook",
     "test": "react-scripts test",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o build/storybook"
+    "build-storybook": "build-storybook -o build/storybook",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build/storybook"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -47,6 +49,7 @@
     "@storybook/addons": "^5.3.18",
     "@storybook/preset-create-react-app": "^2.1.1",
     "@storybook/react": "^5.3.18",
-    "babel-loader": "^8.0.6"
+    "babel-loader": "^8.0.6",
+    "gh-pages": "^2.2.0"
   }
 }

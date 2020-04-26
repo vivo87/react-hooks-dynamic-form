@@ -1,13 +1,13 @@
-import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { Meta, Story, Preview, SourceState } from "@storybook/addon-docs/blocks";
 import CustomFormUsingFormAPI from "./Form";
 
 <Meta title="Form API/Validation" component={CustomFormUsingFormAPI} />
 
 # Built-in types
 
-`email` and `phone` has default validations
+`email` and `phone` has default validation method. The built-in validator can be disabled when by fieldsetting `disableBuiltInValidator = true`.
 
-<Preview>
+<Preview withSource={SourceState.OPEN}>
   <Story name="Build-in type">
     <CustomFormUsingFormAPI
       fields={[
@@ -26,6 +26,15 @@ import CustomFormUsingFormAPI from "./Form";
           label: "Phone type auto validated",
           placeholder: "Input and see what happens on change",
         },
+        {
+          name: "field-3",
+          type: "email",
+          validateOnChange: true,
+          disableBuiltInValidator: true,
+          // --- Following settings only for render purpose
+          label: "Email without built-in validator",
+          placeholder: "You can input anything it will pass",
+        },
       ]}
       defaultSettings={{
         isRequired: true,
@@ -42,7 +51,7 @@ import CustomFormUsingFormAPI from "./Form";
 
 `isRequired` can be a simple Boolean
 
-<Preview>
+<Preview withSource={SourceState.OPEN}>
   <Story name="isRequired Boolean">
     <CustomFormUsingFormAPI
       fields={[
@@ -73,7 +82,7 @@ import CustomFormUsingFormAPI from "./Form";
 
 `isRequired` can be a predicate with formData as parameter in case of conditional validation based on other field
 
-<Preview>
+<Preview withSource={SourceState.OPEN}>
   <Story name="isRequired Predicate">
     <CustomFormUsingFormAPI
       fields={[
@@ -104,7 +113,7 @@ import CustomFormUsingFormAPI from "./Form";
 
 `customValidators` is an array of validation rules, each rule has a `validate` predicate and an `errorMessage`
 
-<Preview>
+<Preview withSource={SourceState.OPEN}>
   <Story name="Custom Validators">
     <CustomFormUsingFormAPI
       fields={[

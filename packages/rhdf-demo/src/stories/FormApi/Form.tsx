@@ -32,13 +32,11 @@ const Form: FC<Props> = ({ fields, defaultSettings, remoteValues }: Props) => {
   return isInit ? (
     <div className="form">
       <div className="form__help">
+        <i>Navigate</i>{" "}
         <span role="img" aria-label="point-up">
           👆👆👆
         </span>{" "}
-        <i>Navigate to Docs tab to see the full documentations</i>{" "}
-        <span role="img" aria-label="point-up">
-          👆👆👆
-        </span>
+        <i> to Docs tab to see the full documentations</i>
       </div>
       {fields.map((fieldSettings, index) => {
         const { name, type, label, validateOnChange, placeholder } = {

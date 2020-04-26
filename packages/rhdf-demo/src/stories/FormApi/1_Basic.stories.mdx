@@ -1,4 +1,4 @@
-import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
+import { Meta, Story, Preview, Props, SourceState } from "@storybook/addon-docs/blocks";
 import CustomFormUsingFormAPI from "./Form";
 
 <Meta title="Form API/Basic Settings" />
@@ -7,7 +7,7 @@ import CustomFormUsingFormAPI from "./Form";
 
 An array containing fields definitions.
 
-<Preview>
+<Preview withSource={SourceState.OPEN}>
   <Story name="Field definitions">
     <CustomFormUsingFormAPI
       fields={[
@@ -46,7 +46,7 @@ We can provide a default common settings for all fields.
 
 > Please note, these settings will be merged and eventually overridden by each specific field definition.
 
-<Preview>
+<Preview withSource={SourceState.OPEN}>
   <Story name="Default settings">
     <CustomFormUsingFormAPI
       fields={[
@@ -60,7 +60,8 @@ We can provide a default common settings for all fields.
         },
       ]}
       defaultSettings={{
-        value: "We all have common default value, all are required, all validate on change :P",
+        value:
+          "We all have common default value, all are required, all self validated on change :P",
         isRequired: true,
         validateOnChange: true,
       }}
@@ -72,7 +73,7 @@ We can provide a default common settings for all fields.
 
 Sometimes the fields values can't be defined on initialization but rather dynamically from external sources (such as server-side or parent components ...). In this case we can pass an object containing `key : value` combos and the library will watch for values change and take care of updating the form accordingly.
 
-<Preview>
+<Preview withSource={SourceState.OPEN}>
   <Story name="Remote values">
     <CustomFormUsingFormAPI
       fields={[

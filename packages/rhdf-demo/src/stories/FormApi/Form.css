@@ -6,6 +6,9 @@
   font-size: 0.8em;
   margin-bottom: 1rem;
 }
+.sbdocs-preview .form__help {
+  display: none;
+}
 .field {
   margin-bottom: 1rem;
   display: flex;

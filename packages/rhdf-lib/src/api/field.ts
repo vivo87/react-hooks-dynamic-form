@@ -139,6 +139,10 @@ export abstract class FieldSettings {
    * If true, validate field on change, otherwise validate on blur by default
    */
   validateOnChange?: boolean = false;
+  /**
+   * If true, disable built-in validator, applicable to type with default validator (email, phone)
+   */
+  disableBuiltInValidator?: boolean = false;
 
   //#endregion --- Common settings for Form API and Form Component
 
@@ -266,31 +270,35 @@ export class Field extends FieldSettings {
 
     switch (this.type) {
       case FieldTypeEnum.EMAIL:
-        // --- Auto add a default email validation
-        // Keep HTML email type for some browser default validation
-        // this.type = "text";
-        this.customValidators.push({
-          validate: (value: FieldValueType) => {
-            const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return (
-              (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
-            );
-          },
-          errorMessage: this.getErrorMessage("email"),
-        });
+        if (!this.disableBuiltInValidator) {
+          // --- Auto add a default email validation
+          // Keep HTML email type for some browser default validation
+          // this.type = "text";
+          this.customValidators.push({
+            validate: (value: FieldValueType) => {
+              const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+              return (
+                (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
+              );
+            },
+            errorMessage: this.getErrorMessage("email"),
+          });
+        }
         break;
       case FieldTypeEnum.PHONE:
-        // --- Auto add a default phone validation
-        this.type = "text";
-        this.customValidators.push({
-          validate: (value: FieldValueType) => {
-            const regex = /^(\+)?(\d)(?:[ _.-]?(\d))+$/;
-            return (
-              (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
-            );
-          },
-          errorMessage: this.getErrorMessage("phone"),
-        });
+        if (!this.disableBuiltInValidator) {
+          // --- Auto add a default phone validation
+          this.type = "text";
+          this.customValidators.push({
+            validate: (value: FieldValueType) => {
+              const regex = /^(\+)?(\d)(?:[ _.-]?(\d))+$/;
+              return (
+                (!this.isRequired && !value) || (!!value && regex.test((value as string).trim()))
+              );
+            },
+            errorMessage: this.getErrorMessage("phone"),
+          });
+        }
         break;
       default:
         break;

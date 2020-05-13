@@ -2,6 +2,12 @@
 
 Generating dynamic form the React Hooks way
 
+<br/>
+
+See the full demo with **[storybook](https://vivo87.github.io/react-hooks-dynamic-form/)**
+
+<br/>
+
 # Getting Started
 
 ```shell
@@ -11,7 +17,7 @@ npm install
 The repository includes 2 separate modules managed by [Lerna](https://lernajs.io/)
 
 - The library: [README](/packages/rhdf-lib/README.md)
-- A demo with storybook: [README](/packages/rhdf-demo/README.md)
+- A demo website with storybook: [README](/packages/rhdf-demo/README.md)
 
 At root level, run
 
